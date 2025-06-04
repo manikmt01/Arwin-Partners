@@ -1,0 +1,218 @@
+@import 'tailwindcss';
+
+@theme {
+  --screen-xsm: 370px;
+  --screen-sm: 480px;
+  --screen-md: 768px;
+  --screen-lg: 1024px;
+  --screen-xl: 1260px;
+  --screen-2xl: 1440px;
+
+  --container-xsm: 100%;
+  --container-sm: 100%;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1260px;
+  --container-padding: 1rem;
+
+  --color-primary: #045e70;
+  --color-secondary: #01b0f1;
+  --color-bglight: #f4fafc;
+
+  --color-cst-blue: #01b0f1;
+  --color-cst-green: #045e70;
+  --color-cst-greener: #4caf4f;
+  --color-cst-peel: #f4fafc;
+  --color-cst-peeler: #e7efef;
+  --color-cst-red: #df5753;
+  --color-cst-gray: #8c9da0;
+  --color-cst-gray-light: #a9acb4;
+  --color-cst-gray-mid: #a8c0c9;
+
+  --font-inter: 'Inter', sans-serif;
+}
+
+.tab {
+  @apply p-2 lg:px-4.5 lg:py-2.5 w-full lg:space-x-3 2xl:space-x-4 flex items-center justify-center lg:justify-start mr-auto cursor-pointer transition-all duration-300 ease-in-out rounded-[10px] font-medium text-sm 2xl:text-lg hover:bg-cst-blue hover:text-white;
+}
+.tab-active {
+  @apply bg-cst-blue text-white;
+}
+.tab-inactive {
+  @apply bg-transparent text-cst-green;
+}
+.tab-content {
+  @apply hidden w-full;
+}
+.tab-content-active {
+  @apply block w-full px-5 pt-6 pb-10 2xl:px-16 2xl:pb-20;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and other WebKit browsers */
+}
+
+@media (max-width: 640px) {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.tab-bg {
+  background-color: #eff6f8;
+}
+.tab-active-text {
+  color: #045e70;
+}
+.tab-inactive-text {
+  color: #5d6e72;
+}
+
+/* tab */
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem; /* Space between legend items */
+  margin-bottom: 0.5rem; /* Space between rows of legend items */
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Subtle shadow for legend */
+  background-color: #fff;
+}
+.legend-color-box {
+  width: 14px;
+  height: 14px;
+  margin-right: 0.5rem;
+  transform: rotate(30deg); /* For hexagon shape */
+  clip-path: polygon(
+    50% 0%,
+    90% 25%,
+    90% 75%,
+    50% 100%,
+    10% 75%,
+    10% 25%
+  ); /* Hexagon clip-path */
+}
+
+.active-tab {
+  background-color: white;
+  color: #045e70;
+}
+
+/* home */
+.container {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+@media (min-width: var(--screen-xsm)) {
+  .container {
+    max-width: var(--container-sm);
+  }
+}
+
+@media (min-width: var(--screen-sm)) {
+  .container {
+    max-width: var(--container-md);
+  }
+}
+
+@media (min-width: var(--screen-md)) {
+  .container {
+    max-width: var(--container-lg);
+  }
+}
+
+@media (min-width: var(--screen-lg)) {
+  .container {
+    max-width: var(--container-xl);
+  }
+}
+
+body {
+  font-family: var(--font-Inter);
+  background-color: #ffffff;
+  color: var(--color-primary);
+}
+.bg-schedule {
+  background-image: url('../img/schedule.png');
+}
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: transparent !important;
+}
+.highlighted:has(.fc-daygrid-day-number) {
+  color: #fff;
+}
+.highlighted {
+  background-color: #00b7ff !important;
+  color: #ffffff !important;
+  border-radius: 0px;
+}
+.fc-toolbar-title {
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+.fc .fc-toolbar-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.fc .fc-button {
+  background: transparent;
+  border: none;
+  color: #0f3c53;
+}
+.fc .fc-daygrid-day-top {
+  justify-content: center;
+  align-items: center;
+}
+.fc .fc-daygrid-body-natural .fc-daygrid-day-events {
+  display: none;
+}
+
+.fc .fc-daygrid-day-frame {
+  height: 45px;
+  align-items: center;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+}
+.fc .fc-bg-event {
+  background: #01b0f1;
+  opacity: 0.4;
+}
+.fc-theme-standard th {
+  height: 35px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.fc-scrollgrid-sync-inner {
+  padding-top: 2px;
+}
+
+@media screen and (max-width: 1440px) {
+  .fc .fc-toolbar-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+  .fc .fc-daygrid-day-frame {
+    height: 45px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .fc .fc-daygrid-day-frame {
+    height: 42px;
+  }
+  .fc .fc-toolbar-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+}

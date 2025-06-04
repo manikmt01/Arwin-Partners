@@ -1,0 +1,2766 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <!-- fav -->
+  <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="./css/style.min.css" />
+  <script>
+    tailwind.config = {
+      plugins: [
+        tailwind.plugin(function ({ addBase }) {
+          addBase({ ":root": { "--tw-theme": "light" } });
+        }),
+      ],
+    };
+  </script>
+</head>
+
+<body class="!bg-cst-peel font-inter">
+  <header class="bg-white xl:hidden block">
+    <div class="w-full flex items-center justify-between py-4 px-5">
+      <div class="flex items-center gap-x-5">
+        <a class="text-cst-blue xl:hidden inline-block" id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg"
+            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu">
+            <path d="M4 12h16" />
+            <path d="M4 18h16" />
+            <path d="M4 6h16" />
+          </svg></a>
+        <a href="./index.html" class="max-w-[160px] lg:max-w-[220px]"><img src="./img/logo-arwin-nuovo.png"
+            alt="" /></a>
+      </div>
+
+      <div class="relative xl:hidden inline-block notification-wrapper">
+        <!-- Notification Button -->
+        <button
+          class="notification-btn text-cst-green transition-colors duration-300 p-3 2xl:p-5 text-base rounded-[10px] border-[2px] border-cst-peeler bg-white flex flex-row items-center gap-x-3 2xl:gap-x-4 hover:bg-[#045e7018] relative cursor-pointer"
+          aria-expanded="false">
+          <img src="./img/icons/notification.svg" alt="Notification" class="max-w-5 max-h-5 xl:max-w-7 xl:max-h-7" />
+          <div class="badge bg-cst-blue badge-xs absolute top-2 right-2"></div>
+        </button>
+
+        <!-- Dropdown Panel (Initially Hidden) -->
+        <div
+          class="notification-dropdown fixed right-5 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-50">
+          <ul class="divide-y divide-gray-100 text-sm">
+            <li class="p-4 hover:bg-gray-50 cursor-pointer">
+              🔔 New message from Alice
+            </li>
+            <li class="p-4 hover:bg-gray-50 cursor-pointer">
+              📦 You received new mail
+            </li>
+            <li class="p-4 hover:bg-gray-50 cursor-pointer">
+              ✅ Task completed successfully
+            </li>
+            <li class="p-4 text-center text-cst-blue hover:underline cursor-pointer">
+              View all
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+  <section class="gap-x-4 flex h-screen" id="dashboard-container bg-cst-peel">
+    <!-- Left Sidebar -->
+    <div
+      class="xl:w-[250px] 2xl:w-[350px] bg-white p-4 2xl:py-8 2xl:px-6 xl:flex flex-col justify-between space-y-4 h-full transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] hidden"
+      id="menus-left">
+      <a href="./index.html" class="max-w-[302px] xl:inline-block hidden">
+        <img src="./img/logo-arwin-nuovo.png" alt="Arwin Logo" />
+      </a>
+      <nav class="mt-[40px] xl:mt-[48px]">
+        <ul class="flex flex-col space-y-2 xl:space-y-2">
+          <li>
+            <div class="tab tab-active" data-tab="tab1">
+              <div class="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 26" fill="none"
+                  class="stroke-current">
+                  <path
+                    d="M9.39551 2.97354L3.78092 7.34854C2.84342 8.07771 2.08301 9.62979 2.08301 10.8069V18.5256C2.08301 20.9423 4.05176 22.9215 6.46842 22.9215H18.5309C20.9476 22.9215 22.9163 20.9423 22.9163 18.536V10.9527C22.9163 9.69229 22.0726 8.07771 21.0413 7.35896L14.6038 2.84854C13.1455 1.82771 10.8018 1.87979 9.39551 2.97354Z"
+                    stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M12.5 18.7549V15.6299" stroke-width="1.5625" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              <span class="hidden lg:inline-block xl:text-base text-sm">Dashboard</span>
+            </div>
+          </li>
+          <li>
+            <div class="tab tab-inactive" data-tab="tab2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" viewBox="0 0 25 26" fill="none"
+                class="stroke-current">
+                <path
+                  d="M22.5624 10.8903L21.5415 15.2445C20.6665 19.0049 18.9374 20.5257 15.6874 20.2132C15.1665 20.1715 14.604 20.0778 13.9999 19.932L12.2499 19.5153C7.90611 18.484 6.56236 16.3382 7.5832 11.984L8.60403 7.61945C8.81236 6.73404 9.06236 5.9632 9.37486 5.32779C10.5936 2.80695 12.6665 2.12987 16.1457 2.95279L17.8853 3.35904C22.2499 4.37987 23.5832 6.53612 22.5624 10.8903Z"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M15.6881 20.2133C15.0423 20.6508 14.2298 21.0154 13.2402 21.3383L11.5943 21.88C7.45893 23.2133 5.28185 22.0987 3.9381 17.9633L2.60477 13.8487C1.27143 9.7133 2.3756 7.5258 6.51102 6.19246L8.15685 5.6508C8.58393 5.51538 8.99018 5.4008 9.3756 5.32788C9.0631 5.9633 8.8131 6.73413 8.60477 7.61955L7.58393 11.9841C6.5631 16.3383 7.90685 18.4841 12.2506 19.5154L14.0006 19.932C14.6048 20.0779 15.1673 20.1716 15.6881 20.2133Z"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M13.166 8.90073L18.2181 10.182" stroke-width="1.5625" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M12.1465 12.9319L15.1673 13.7027" stroke-width="1.5625" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <span class="hidden lg:inline-block xl:text-base text-sm">Planning</span>
+            </div>
+          </li>
+          <li>
+            <div class="tab tab-inactive" data-tab="tab3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" viewBox="0 0 25 26" fill="none"
+                class="stroke-current">
+                <path
+                  d="M12.4997 22.932C6.74967 22.932 2.08301 18.2653 2.08301 12.5153C2.08301 6.7653 6.74967 2.09863 12.4997 2.09863C18.2497 2.09863 22.9163 6.7653 22.9163 12.5153C22.9163 18.2653 18.2497 22.932 12.4997 22.932Z"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M11.3333 14.755C10.8021 15.2134 10.1146 15.505 9.36458 15.505C7.71874 15.505 6.375 14.1717 6.375 12.5154C6.375 10.8592 7.70833 9.52585 9.36458 9.52585C10.125 9.52585 10.8125 9.80707 11.3333 10.2758"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M18.6253 14.755C18.0941 15.2134 17.4066 15.505 16.6566 15.505C15.0107 15.505 13.667 14.1717 13.667 12.5154C13.667 10.8592 15.0003 9.52585 16.6566 9.52585C17.417 9.52585 18.1045 9.80707 18.6253 10.2758"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span class="hidden lg:inline-block xl:text-base text-sm">Comunicazione</span>
+            </div>
+          </li>
+          <li>
+            <div class="tab tab-inactive" data-tab="tab4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" viewBox="0 0 25 26" fill="none"
+                class="stroke-current">
+                <path
+                  d="M9.54167 11.3382C9.4375 11.3278 9.3125 11.3278 9.19792 11.3382C6.71875 11.2549 4.75 9.22363 4.75 6.72363C4.75 4.17155 6.8125 2.09863 9.375 2.09863C11.9271 2.09863 14 4.17155 14 6.72363C13.9896 9.22363 12.0208 11.2549 9.54167 11.3382Z"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M17.0944 4.18195C19.1152 4.18195 20.7402 5.81736 20.7402 7.82778C20.7402 9.79653 19.1777 11.4007 17.2298 11.4736C17.1465 11.4632 17.0527 11.4632 16.959 11.4736"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M4.33301 15.1819C1.81217 16.8694 1.81217 19.6194 4.33301 21.2965C7.19759 23.2132 11.8955 23.2132 14.7601 21.2965C17.2809 19.609 17.2809 16.859 14.7601 15.1819C11.9059 13.2757 7.20801 13.2757 4.33301 15.1819Z"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M19.1035 20.8486C19.8535 20.6924 20.5618 20.3903 21.1452 19.9424C22.7702 18.7236 22.7702 16.7132 21.1452 15.4945C20.5723 15.057 19.8743 14.7653 19.1348 14.5986"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span class="hidden lg:inline-block xl:text-base text-sm">Shareholders</span>
+            </div>
+          </li>
+          <li>
+            <div class="tab tab-inactive" data-tab="tab5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" viewBox="0 0 25 26" fill="none"
+                class="stroke-current">
+                <path d="M17.1875 9.91107L12.8125 14.2861L11.1458 11.7861L7.8125 15.1194" stroke-width="1.5625"
+                  stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M15.1045 9.91107H17.1878V11.9944" stroke-width="1.5625" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M9.37467 22.9319H15.6247C20.833 22.9319 22.9163 20.8486 22.9163 15.6402V9.39024C22.9163 4.18191 20.833 2.09857 15.6247 2.09857H9.37467C4.16634 2.09857 2.08301 4.18191 2.08301 9.39024V15.6402C2.08301 20.8486 4.16634 22.9319 9.37467 22.9319Z"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span class="hidden lg:inline-block xl:text-base text-sm">Market</span>
+            </div>
+          </li>
+          <li>
+            <div class="tab tab-inactive" data-tab="tab6">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" viewBox="0 0 25 26" fill="none"
+                class="stroke-current">
+                <path
+                  d="M5.125 21.1403L6.96875 22.5673C7.20834 22.8069 7.73958 22.9215 8.10417 22.9215H10.3646C11.0833 22.9215 11.8542 22.3903 12.0313 21.6715L13.4583 17.3277C13.7604 16.4944 13.2188 15.7757 12.3229 15.7757H9.9375C9.58334 15.7757 9.28125 15.4735 9.34375 15.0568L9.64584 13.1506C9.76042 12.6194 9.40625 12.0152 8.875 11.8381C8.39583 11.661 7.80209 11.9006 7.5625 12.2548L5.125 15.8902"
+                  stroke-width="1.5625" stroke-miterlimit="10" />
+                <path
+                  d="M2.08301 21.1403V15.307C2.08301 14.4736 2.43717 14.1714 3.27051 14.1714H3.86426C4.69759 14.1714 5.05176 14.4736 5.05176 15.307V21.1403C5.05176 21.9736 4.69759 22.2756 3.86426 22.2756H3.27051C2.43717 22.2756 2.08301 21.984 2.08301 21.1403Z"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M19.8745 3.89022L18.0308 2.46314C17.7912 2.22356 17.2599 2.10901 16.8954 2.10901H14.635C13.9162 2.10901 13.1454 2.64021 12.9683 3.35896L11.5412 7.70275C11.2391 8.53609 11.7808 9.25483 12.6766 9.25483H15.062C15.4162 9.25483 15.7183 9.55698 15.6558 9.97364L15.3537 11.8798C15.2391 12.4111 15.5933 13.0153 16.1245 13.1924C16.6037 13.3694 17.1974 13.1298 17.437 12.7757L19.8745 9.14026"
+                  stroke-width="1.5625" stroke-miterlimit="10" />
+                <path
+                  d="M22.916 3.8902V9.72351C22.916 10.5568 22.5618 10.859 21.7285 10.859H21.1348C20.3014 10.859 19.9473 10.5568 19.9473 9.72351V3.8902C19.9473 3.05687 20.3014 2.75482 21.1348 2.75482H21.7285C22.5618 2.75482 22.916 3.04645 22.916 3.8902Z"
+                  stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span class="hidden lg:inline-block xl:text-base text-sm">Sentiment Analysis</span>
+            </div>
+          </li>
+          <li>
+            <div class="tab tab-inactive" data-tab="tab7">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none"
+                class="stroke-current">
+                <path
+                  d="M9 22.5153H15C20 22.5153 22 20.5153 22 15.5153V9.51526C22 4.51526 20 2.51526 15 2.51526H9C4 2.51526 2 4.51526 2 9.51526V15.5153C2 20.5153 4 22.5153 9 22.5153Z"
+                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M15.5703 19.0152V15.1152" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M15.5703 7.96526V6.01526" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M15.5697 13.1653C17.0057 13.1653 18.1697 12.0012 18.1697 10.5653C18.1697 9.12933 17.0057 7.96527 15.5697 7.96527C14.1338 7.96527 12.9697 9.12933 12.9697 10.5653C12.9697 12.0012 14.1338 13.1653 15.5697 13.1653Z"
+                  stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8.42969 19.0152V17.0652" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M8.42969 9.91526V6.01526" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M8.43008 17.0652C9.86602 17.0652 11.0301 15.9012 11.0301 14.4652C11.0301 13.0293 9.86602 11.8652 8.43008 11.8652C6.99414 11.8652 5.83008 13.0293 5.83008 14.4652C5.83008 15.9012 6.99414 17.0652 8.43008 17.0652Z"
+                  stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span class="hidden lg:inline-block xl:text-base text-sm">Control Room</span>
+            </div>
+          </li>
+          <li>
+            <div class="tab tab-inactive" data-tab="tab8">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" viewBox="0 0 25 26" fill="none"
+                class="stroke-current">
+                <path
+                  d="M8.85384 19.8069H8.33301C4.16634 19.8069 2.08301 18.7652 2.08301 13.5569V8.34857C2.08301 4.18191 4.16634 2.09857 8.33301 2.09857H16.6663C20.833 2.09857 22.9163 4.18191 22.9163 8.34857V13.5569C22.9163 17.7236 20.833 19.8069 16.6663 19.8069H16.1455C15.8226 19.8069 15.5101 19.9632 15.3122 20.2236L13.7497 22.3069C13.0622 23.2236 11.9372 23.2236 11.2497 22.3069L9.68717 20.2236C9.52051 19.9944 9.13509 19.8069 8.85384 19.8069Z"
+                  stroke-width="1.5625" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M7.29199 8.34857H17.7087" stroke-width="1.5625" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M7.29199 13.5569H13.542" stroke-width="1.5625" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <span class="hidden lg:inline-block xl:text-base text-sm">Assistenza e contatti</span>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <button
+        class="btn p-2 lg:px-4.5 lg:py-2.5 mt-auto mr-auto w-full hover:text-white text-cst-red bg-transparent hover:bg-cst-red border-none shadow-none hover:shadow-none text-start font-medium flex items-center justify-start lg:space-x-3 text-sm 2xl:text-lg rounded-[10px] transition-all duration-300"
+        id="logout-button" onclick="window.location.href='./index.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" viewBox="0 0 25 26" fill="none"
+          class="stroke-current">
+          <path
+            d="M9.27148 7.89026C9.5944 4.14026 11.5215 2.60901 15.7402 2.60901H15.8757C20.5319 2.60901 22.3965 4.47359 22.3965 9.12984V15.9215C22.3965 20.5778 20.5319 22.4423 15.8757 22.4423H15.7402C11.5527 22.4423 9.62565 20.9319 9.2819 17.2444"
+            stroke-width="2.08333" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M15.6247 12.5153H3.77051" stroke-width="2.08333" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M6.09408 9.02576L2.60449 12.5153L6.09408 16.0049" stroke-width="2.08333" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+        <span class="hidden lg:inline-block xl:text-base text-sm">Log Out</span>
+      </button>
+    </div>
+    <!-- Main Content -->
+    <div class="flex-1 overflow-auto">
+      <!-- Header -->
+      <div
+        class="flex flex-col md:flex-row justify-between items-start 2xl:items-center space-y-4 px-5 pt-7 2xl:pt-10 2xl:px-16 pb-5">
+        <div class="min-w-[24%]">
+          <h2 id="planning-title" class="text-xl 2xl:text-3xl lg:text-2xl font-semibold text-cst-green ">
+            Ciao, Antonio!
+          </h2>
+        </div>
+
+        <div
+          class="flex flex-row md:justify-end space-x-3 2xl:space-x-4 overflow-x-scroll 2xl:overflow-x-hidden w-full 2xl:w-auto hide-scrollbar">
+          <a href="#"
+            class="text-cst-green transition-colors duration-300 font-medium py-2 px-3 text-sm rounded-[10px] border-[2px] border-cst-peeler bg-white flex flex-row items-center gap-x-3 hover:bg-[#045e7018] flex-nowrap min-w-fit">LinkedIn
+            <img src="./img/icons/share.svg" alt="" class="max-w-4 max-h-4" /></a>
+          <a href="#"
+            class="text-cst-green transition-colors duration-300 font-medium py-2 px-3 text-sm rounded-[10px] border-[2px] border-cst-peeler bg-white flex flex-row items-center gap-x-3 hover:bg-[#045e7018] flex-nowrap min-w-fit">Sole24
+            <img src="./img/icons/share.svg" alt="" class="max-w-4 max-h-4" /></a>
+          <a href="#"
+            class="text-cst-green transition-colors duration-300 font-medium py-2 px-3 text-sm rounded-[10px] border-[2px] border-cst-peeler bg-white flex flex-row items-center gap-x-3 hover:bg-[#045e7018] flex-nowrap min-w-fit">Milano
+            Finanza
+            <img src="./img/icons/share.svg" alt="" class="max-w-4 max-h-4" /></a>
+          <a href="#"
+            class="text-cst-green transition-colors duration-300 font-medium py-2 px-3 text-sm rounded-[10px] border-[2px] border-cst-peeler bg-white flex flex-row items-center gap-x-3 hover:bg-[#045e7018] flex-nowrap min-w-fit">Financial
+            Times
+            <img src="./img/icons/share.svg" alt="" class="max-w-4 max-h-4" /></a>
+          <!-- Notification Button Wrapper -->
+          <div class="relative xl:inline-block hidden notification-wrapper">
+            <!-- Notification Button -->
+            <button
+              class="notification-btn text-cst-green transition-colors duration-300 p-2 text-sm rounded-[10px] border-[2px] border-cst-peeler bg-white flex items-center gap-x-3 hover:bg-[#045e7018] relative cursor-pointer"
+              aria-expanded="false">
+              <img src="./img/icons/notification.svg" alt="Notification" class="max-w-7 max-h-7" />
+              <div class="absolute top-3.5 right-3.5 w-2.5 h-2.5 bg-cst-blue rounded-full"></div>
+            </button>
+
+            <!-- Dropdown Panel (Initially Hidden) -->
+            <div
+              class="notification-dropdown fixed -ml-[180px] xl:-ml-[200px] 2xl:right-24 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-50">
+              <ul class="divide-y divide-gray-100 text-sm">
+                <li class="p-4 hover:bg-gray-50 cursor-pointer">
+                  🔔 New message from Alice
+                </li>
+                <li class="p-4 hover:bg-gray-50 cursor-pointer">
+                  📦 You received new mail
+                </li>
+                <li class="p-4 hover:bg-gray-50 cursor-pointer">
+                  ✅ Task completed successfully
+                </li>
+                <li class="p-4 text-center text-cst-blue hover:underline cursor-pointer">
+                  View all
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Tab Content -->
+      <div class="w-full overflow-y-scroll h-full hide-scrollbar">
+        <!-- Tab 1 -->
+        <div id="tab1" class="tab-content tab-content-active">
+          <!-- rest content -->
+          <div class="w-full grid grid-cols-12 gap-6 md:gap-7 lg:gap-[38px]">
+            <!-- item 1 - 3/3 -->
+            <div class="flex flex-col col-span-12 md:col-span-5">
+              <div
+                class="lg:py-5 pt-7 px-0 lg:px-7 bg-white lg:rounded-[10px] outline-2 outline-offset-[-2px] outline-slate-200 flex flex-col justify-start items-start gap-3">
+                <div class="calendar"></div>
+              </div>
+            </div>
+            <!-- item 2 - 1/2 tab -->
+            <div class="flex flex-col col-span-12 md:col-span-7 relative">
+              <button
+                class="p-[8px]  2xl:p-[10px] bg-cst-blue rounded-[10px] absolute top-4 right-5 lg:top-[30px] lg:right-[30px] inline-block cursor-pointer transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 20.5H7C4 20.5 2 19 2 15.5V8.5C2 5 4 3.5 7 3.5H17C20 3.5 22 5 22 8.5V11.5" stroke="white"
+                    stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M17 9L13.87 11.5C12.84 12.32 11.15 12.32 10.12 11.5L7 9" stroke="white" stroke-width="1.5"
+                    stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M19.21 14.77L15.6701 18.31C15.5301 18.45 15.4 18.71 15.37 18.9L15.18 20.25C15.11 20.74 15.45 21.08 15.94 21.01L17.29 20.82C17.48 20.79 17.75 20.66 17.88 20.52L21.4201 16.98C22.0301 16.37 22.3201 15.66 21.4201 14.76C20.5301 13.87 19.82 14.16 19.21 14.77Z"
+                    stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M18.7 15.28C19 16.36 19.84 17.2 20.92 17.5" stroke="white" stroke-width="1.5"
+                    stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <!-- top -->
+              <div data-tab-group
+                class="tab-wrapper px-6 py-4 2xl:px-[30px] 2xl:py-4 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Emails
+                </h3>
+                <!-- Tab Buttons -->
+                <div class="inline-flex space-x-2 bg-[#EFF6F8] rounded-lg p-2 mt-6 lg:mt-4" role="tablist">
+                  <button
+                    class="tab-buttons bg-white text-[#045e70] px-4 py-2 rounded-md font-semibold text-sm cursor-pointer"
+                    data-tab-target="all-mails" aria-selected="true">
+                    All Mails
+                  </button>
+                  <button
+                    class="tab-buttons bg-[#EFF6F8] text-[#5D6E72] px-4 py-2 rounded-md font-semibold text-sm cursor-pointer"
+                    data-tab-target="unread" aria-selected="false">
+                    Unread
+                  </button>
+                  <button
+                    class="tab-buttons bg-[#EFF6F8] text-[#5D6E72] px-4 py-2 rounded-md font-semibold text-sm cursor-pointer"
+                    data-tab-target="archive" aria-selected="false">
+                    Archive
+                  </button>
+                </div>
+              </div>
+              <!-- bottom -->
+              <div
+                class="bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[300px] xl:min-h-[380px]">
+                <!-- Tab Contents -->
+                <div data-tab-id="all-mails" class="tab-contents block">
+                  <!-- msg 1 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 2 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 3 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 4 -->
+                  <div class="p-5 flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Carlos Méndez
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Operational KPIs – Q3 Recap
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div data-tab-id="unread" class="tab-contents hidden">
+                  <!-- msg 1 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 2 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 3 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 4 -->
+                  <div class="p-5 flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Carlos Méndez
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Operational KPIs – Q3 Recap
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div data-tab-id="archive" class="tab-contents hidden">
+                  <!-- msg 1 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 2 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 3 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 4 -->
+                  <div class="p-5 flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Carlos Méndez
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Operational KPIs – Q3 Recap
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- item 3 - 3/3 -->
+            <div class="flex flex-col col-span-12 md:col-span-5">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Ownership Composition
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-5 2xl:p-6 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[400px]">
+                <div class="flex flex-col items-center">
+                  <!-- Chart Container -->
+                  <div class="w-48 h-38 relative">
+                    <canvas id="ownership" class="w-full h-full"></canvas>
+                  </div>
+
+                  <!-- Custom Legend -->
+                  <div class="mt-6 grid grid-cols-2 gap-4 justify-start text-sm font-normal">
+                    <div class="flex flex-col space-y-[10px]">
+                      <!-- Strategic Holders -->
+                      <div
+                        class="flex items-center space-x-[10px] justify-start p-[10px] rounded-lg border border-cst-peeler col-span-1">
+                        <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-blue"></div>
+                        <span class="text-xs text-cst-green mr-3">Strategic Holders</span>
+                      </div>
+                      <!-- Institutional investors -->
+                      <div
+                        class="flex items-center space-x-[10px] justify-start p-[10px] rounded-lg border border-cst-peeler col-span-1">
+                        <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-greener"></div>
+                        <span class="text-xs text-cst-green mr-3">Institutional investors</span>
+                      </div>
+                      <!-- Not Tracked -->
+                      <div
+                        class="flex items-center space-x-[10px] justify-start p-[10px] rounded-lg border border-cst-peeler col-span-1">
+                        <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-green"></div>
+                        <span class="text-xs text-cst-green mr-3">Not Tracked</span>
+                      </div>
+                    </div>
+                    <div class="flex flex-col space-y-[10px]">
+                      <!-- Foundations -->
+                      <div
+                        class="flex items-center space-x-[10px] justify-start p-[10px] rounded-lg border border-cst-peeler col-span-1">
+                        <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-blue"></div>
+                        <span class="text-xs text-cst-green mr-3">Foundations</span>
+                      </div>
+
+                      <!-- Treasury shares -->
+                      <div
+                        class="flex items-center space-x-[10px] justify-start p-[10px] rounded-lg border border-cst-peeler col-span-1">
+                        <div class="min-w-[18px] min-h-[18px] rounded-sm bg-[#9400BD]"></div>
+                        <span class="text-xs text-cst-green mr-3">Treasury shares</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- item 4 - 3/3 -->
+            <div class="flex flex-col col-span-12 md:col-span-7">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  PE FWD 12m VS EPS CAGR
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-5 2xl:p-6 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[400px]">
+                <div class="">
+                  <!-- Chart Container -->
+                  <div class="w-full max-h-38 mb-8">
+                    <span class="text-sm text-cst-gray-light relative left-10">PE FWD 12m</span>
+                    <canvas id="gagr"></canvas>
+                  </div>
+                  <div class="flex flex-col items-center mx-auto pt-5">
+                    <span class="text-sm text-cst-gray-light">EPS GAGR</span>
+                    <div class="flex flex-wrap item-center justify-center gap-2 max-w-[300px] mt-4">
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Epsilon</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Delta</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-indigo-500 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Beta</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-purple-800 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Gamma</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Alpha</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Legend -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Tab 2 -->
+        <div id="tab2" class="tab-content">
+          <!-- rest content -->
+          <div class="w-full md:mt-[16px] grid grid-cols-12 gap-6 md:gap-7 2xl:gap-[38px]">
+            <!-- item 1 - 3/3 -->
+            <div class="flex flex-col col-span-12 md:col-span-5">
+              <div
+                class="lg:py-5 pt-7 px-0 lg:px-7 bg-white lg:rounded-[10px] outline-2 outline-offset-[-2px] outline-slate-200 flex flex-col justify-start items-start gap-3">
+                <div class="calendarTwo"></div>
+              </div>
+            </div>
+            <!-- item 2 - 2/3 -->
+            <div class="flex flex-col col-span-12 md:col-span-7">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Note
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-6 2xl:p-6 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[420px] flex flex-col space-y-[22px]">
+                <!-- 1 -->
+                <div class="flex flex-col space-y-[10px] p-4 rounded-[10px] bg-[#01B0F1]/10">
+                  <div class="flex flex-row items-center justify-between space-x-2">
+                    <h4 class="text-base font-semibold text-[#045E70]">
+                      Giulia Ferretti – lavora per Amber Oak Capital
+                    </h4>
+                    <span class="text-sm text-[#01B0F1]">23 Marzo 10:45 AM</span>
+                  </div>
+                  <p class="text-sm text-[#045E70]">
+                    Cifre solide, ma la marginalità resta un punto
+                    interrogativo. O stanno sacrificando pricing power per
+                    quota di mercato?
+                  </p>
+                </div>
+                <!-- 2 -->
+                <div class="flex flex-col space-y-[10px] p-4 rounded-[10px] bg-[#045E70]/10">
+                  <div class="flex flex-row items-center justify-between space-x-2">
+                    <h4 class="text-base font-semibold text-[#045E70]">
+                      Giulia Ferretti – lavora per Amber Oak Capital
+                    </h4>
+                    <span class="text-sm text-[#159BB6]">23 Marzo 10:45 AM</span>
+                  </div>
+                  <p class="text-sm text-[#045E70]">
+                    Cifre solide, ma la marginalità resta un punto
+                    interrogativo. O stanno sacrificando pricing power per
+                    quota di mercato?
+                  </p>
+                </div>
+                <!-- 3 -->
+                <div class="flex flex-col space-y-[10px] p-4 rounded-[10px] bg-[#461BBB]/10">
+                  <div class="flex flex-row items-center justify-between space-x-2">
+                    <h4 class="text-base font-semibold text-[#461BBB]">
+                      Giulia Ferretti – lavora per Amber Oak Capital
+                    </h4>
+                    <span class="text-sm text-[#714ADA]">23 Marzo 10:45 AM</span>
+                  </div>
+                  <p class="text-sm text-[#371A86]">
+                    Cifre solide, ma la marginalità resta un punto
+                    interrogativo. O stanno sacrificando pricing power per
+                    quota di mercato?
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- item 5 -3/3 -->
+            <div class="overflow-x-scroll lg:overflow-x-auto col-span-12 hide-scrollbar md:mt-[10px]">
+              <table
+                class="min-w-[900px] lg:min-w-full table-auto border-collapse rounded-lg overflow-hidden font-semibold text-sm">
+                <thead class="bg-cst-green text-white">
+                  <tr>
+                    <th class="p-3 lg:p-4 text-left">Nome</th>
+                    <th class="p-3 lg:p-4 text-left">Società</th>
+                    <th class="p-3 lg:p-4 text-left">Contatto</th>
+                    <th class="p-3 lg:p-4 text-left">Note</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white text-cst-green">
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler rounded-b-lg">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Mario Rossi</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Sigma SGR</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      mario.rossi@sigma.com
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Interessato alla società ma al momento è in "wait and
+                      see"
+                    </td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler rounded-b-lg">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Chiara Bianchi</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Cassa Montana</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      chiara.bianchi@camontana.com
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Molto negativa sull'intero settore, improbabile un suo
+                      ...
+                    </td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler rounded-b-lg">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Francis Green</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Omega Capital</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">f.g.@omega.com</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Molto negativa sull'intero settore, improbabile un suo
+                      ...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Tab 3 -->
+        <div id="tab3" class="tab-content">
+          <!-- rest content -->
+          <div class="w-full md:mt-[16px] grid grid-cols-12 gap-6 md:gap-9 2xl:gap-[40px]">
+            <!-- item 1 - 1/2 tab -->
+            <div class="flex flex-col col-span-12 xl:col-span-5 tab-wrapper">
+              <!-- top -->
+              <div data-tab-group
+                class="tab-wrapper px-6 py-4 2xl:p-[30PX] bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Emails
+                </h3>
+                <!-- Tab Buttons -->
+                <div class="inline-flex space-x-2 bg-[#EFF6F8] rounded-lg p-2 mt-4" role="tablist">
+                  <button
+                    class="tab-buttons bg-white text-[#045e70] px-4 py-2 rounded-md font-semibold text-sm cursor-pointer"
+                    data-tab-target="all-mails" aria-selected="true">
+                    All Mails
+                  </button>
+                  <button
+                    class="tab-buttons bg-[#EFF6F8] text-[#5D6E72] px-4 py-2 rounded-md font-semibold text-sm cursor-pointer"
+                    data-tab-target="unread" aria-selected="false">
+                    Unread
+                  </button>
+                  <button
+                    class="tab-buttons bg-[#EFF6F8] text-[#5D6E72] px-4 py-2 rounded-md font-semibold text-sm cursor-pointer"
+                    data-tab-target="archive" aria-selected="false">
+                    Archive
+                  </button>
+                </div>
+              </div>
+              <!-- bottom -->
+              <div
+                class="bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[300px] xl:min-h-[380px]">
+                <!-- Tab Contents -->
+                <div data-tab-id="all-mails" class="tab-contents block">
+                  <!-- msg 1 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 2 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 3 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 4 -->
+                  <div class="p-5 flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Carlos Méndez
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Operational KPIs – Q3 Recap
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div data-tab-id="unread" class="tab-contents hidden">
+                  <!-- msg 1 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 2 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 3 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 4 -->
+                  <div class="p-5 flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Carlos Méndez
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Operational KPIs – Q3 Recap
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div data-tab-id="archive" class="tab-contents hidden">
+                  <!-- msg 1 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 2 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 3 -->
+                  <div class="p-4 border-b-[2px] border-cst-peeler flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Marco Bellini
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Q3 Dashboard Summary
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                  <!-- msg 4 -->
+                  <div class="p-5 flex flex-row gap-x-4">
+                    <!-- img -->
+                    <div>
+                      <img src="./img/users.png" alt="users" class="rounded-full" />
+                    </div>
+                    <!-- content -->
+                    <div class="flex flex-col justify-between w-full gap-y-[5px] 2xl:gap-y-[7px]">
+                      <!-- i1 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h5 class="text-sm font-medium text-cst-green">
+                          Carlos Méndez
+                        </h5>
+                        <span class="text-sm text-[#A8A8A8]">10:45</span>
+                      </div>
+                      <!-- i2 -->
+                      <div class="flex flex-row justify-between items-center gap-x-1">
+                        <h4 class="text-base font-semibold text-black">
+                          Operational KPIs – Q3 Recap
+                        </h4>
+                        <div aria-label="status" class="status bg-cst-blue status-lg"></div>
+                      </div>
+                      <!-- i3 -->
+                      <p class="text-xs text-[#8C9DA0] font-medium mr-3">
+                        Hi Antonio, please find below the key points discussed
+                        and next steps we agreed on…
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- item 2 - 1/2 -->
+            <div class="flex flex-col col-span-12 xl:col-span-7 gap-y-4 lg:gap-y-[30px]">
+              <button
+                class="p-5 2xl:py-6 2xl:px-8 flex flex-row items-center justify-center gap-x-5 bg-white border-[2px] border-cst-blue rounded-[10px] text-base font-semibold text-cst-green cursor-pointer hover:bg-cst-blue/10 transition-colors duration-300">
+                E-Market Storage (SDIR)
+                <img src="./img/icons/share.svg" alt="arrow " />
+              </button>
+              <div class="flex flex-col">
+                <!-- top -->
+                <div
+                  class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                  <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                    Archivio
+                  </h3>
+                </div>
+                <!-- bottom -->
+                <div
+                  class="p-6 2xl:p-[30px] bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[300px] xl:min-h-[380px] overflow-x-scroll hide-scrollbar">
+                  <table class="min-w-[900px] lg:min-w-full table-auto border-collapse overflow-hidden text-sm">
+                    <tbody class="bg-white">
+                      <tr class="">
+                        <td class="text-cst-green pb-[20px]">
+                          <div
+                            class="w-10 h-10 flex justify-center items-center border-[1px] border-cst-peeler rounded-[10px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                              fill="none" class="min-w-6 min-h-6 max-w-6 max-h-6">
+                              <path
+                                d="M15.8002 2.20999C15.3902 1.79999 14.6802 2.07999 14.6802 2.64999V6.13999C14.6802 7.59999 15.9202 8.80999 17.4302 8.80999C18.3802 8.81999 19.7002 8.81999 20.8302 8.81999C21.4002 8.81999 21.7002 8.14999 21.3002 7.74999C19.8602 6.29999 17.2802 3.68999 15.8002 2.20999Z"
+                                fill="#01B0F1" />
+                              <path
+                                d="M20.5 10.19H17.61C15.24 10.19 13.31 8.26 13.31 5.89V3C13.31 2.45 12.86 2 12.31 2H8.07C4.99 2 2.5 4 2.5 7.57V16.43C2.5 20 4.99 22 8.07 22H15.93C19.01 22 21.5 20 21.5 16.43V11.19C21.5 10.64 21.05 10.19 20.5 10.19ZM11.5 17.75H7.5C7.09 17.75 6.75 17.41 6.75 17C6.75 16.59 7.09 16.25 7.5 16.25H11.5C11.91 16.25 12.25 16.59 12.25 17C12.25 17.41 11.91 17.75 11.5 17.75ZM13.5 13.75H7.5C7.09 13.75 6.75 13.41 6.75 13C6.75 12.59 7.09 12.25 7.5 12.25H13.5C13.91 12.25 14.25 12.59 14.25 13C14.25 13.41 13.91 13.75 13.5 13.75Z"
+                                fill="#01B0F1" />
+                            </svg>
+                          </div>
+                        </td>
+                        <td class="text-cst-green text-base font-semibold pb-[20px] px-[10px]">
+                          FY 2024 Results
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px]">
+                          05.02.2025
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px] px-[20px]">
+                          15 MB
+                        </td>
+                        <td class="pb-[20px]">
+                          <button
+                            class="text-sm text-cst-blue font-medium border-[2px] border-cst-blue py-[8px] px-5 rounded-[10px] bg-cst-blue/10 hover:bg-cst-blue/20 transition-colors duration-300 cursor-pointer">
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr class="">
+                        <td class="text-cst-green pb-[20px]">
+                          <div
+                            class="w-10 h-10 flex justify-center items-center border-[1px] border-cst-peeler rounded-[10px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                              fill="none" class="min-w-6 min-h-6 max-w-6 max-h-6">
+                              <path
+                                d="M15.8002 2.20999C15.3902 1.79999 14.6802 2.07999 14.6802 2.64999V6.13999C14.6802 7.59999 15.9202 8.80999 17.4302 8.80999C18.3802 8.81999 19.7002 8.81999 20.8302 8.81999C21.4002 8.81999 21.7002 8.14999 21.3002 7.74999C19.8602 6.29999 17.2802 3.68999 15.8002 2.20999Z"
+                                fill="#31A548" />
+                              <path
+                                d="M20.5 10.19H17.61C15.24 10.19 13.31 8.26 13.31 5.89V3C13.31 2.45 12.86 2 12.31 2H8.07C4.99 2 2.5 4 2.5 7.57V16.43C2.5 20 4.99 22 8.07 22H15.93C19.01 22 21.5 20 21.5 16.43V11.19C21.5 10.64 21.05 10.19 20.5 10.19ZM11.5 17.75H7.5C7.09 17.75 6.75 17.41 6.75 17C6.75 16.59 7.09 16.25 7.5 16.25H11.5C11.91 16.25 12.25 16.59 12.25 17C12.25 17.41 11.91 17.75 11.5 17.75ZM13.5 13.75H7.5C7.09 13.75 6.75 13.41 6.75 13C6.75 12.59 7.09 12.25 7.5 12.25H13.5C13.91 12.25 14.25 12.59 14.25 13C14.25 13.41 13.91 13.75 13.5 13.75Z"
+                                fill="#31A548" />
+                            </svg>
+                          </div>
+                        </td>
+                        <td class="text-cst-green text-base font-semibold pb-[20px] px-[10px]">
+                          FY 2024 results Press release
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px]">
+                          05.02.2025
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px] px-[20px]">
+                          15 MB
+                        </td>
+                        <td class="pb-[20px]">
+                          <button
+                            class="text-sm text-cst-blue font-medium border-[2px] border-cst-blue py-[8px] px-5 rounded-[10px] bg-cst-blue/10 hover:bg-cst-blue/20 transition-colors duration-300 cursor-pointer">
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr class="">
+                        <td class="text-cst-green pb-[20px]">
+                          <div
+                            class="w-10 h-10 flex justify-center items-center border-[1px] border-cst-peeler rounded-[10px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                              fill="none" class="min-w-6 min-h-6 max-w-6 max-h-6">
+                              <path
+                                d="M15.8002 2.20999C15.3902 1.79999 14.6802 2.07999 14.6802 2.64999V6.13999C14.6802 7.59999 15.9202 8.80999 17.4302 8.80999C18.3802 8.81999 19.7002 8.81999 20.8302 8.81999C21.4002 8.81999 21.7002 8.14999 21.3002 7.74999C19.8602 6.29999 17.2802 3.68999 15.8002 2.20999Z"
+                                fill="#5936A5" />
+                              <path
+                                d="M20.5 10.19H17.61C15.24 10.19 13.31 8.26 13.31 5.89V3C13.31 2.45 12.86 2 12.31 2H8.07C4.99 2 2.5 4 2.5 7.57V16.43C2.5 20 4.99 22 8.07 22H15.93C19.01 22 21.5 20 21.5 16.43V11.19C21.5 10.64 21.05 10.19 20.5 10.19ZM11.5 17.75H7.5C7.09 17.75 6.75 17.41 6.75 17C6.75 16.59 7.09 16.25 7.5 16.25H11.5C11.91 16.25 12.25 16.59 12.25 17C12.25 17.41 11.91 17.75 11.5 17.75ZM13.5 13.75H7.5C7.09 13.75 6.75 13.41 6.75 13C6.75 12.59 7.09 12.25 7.5 12.25H13.5C13.91 12.25 14.25 12.59 14.25 13C14.25 13.41 13.91 13.75 13.5 13.75Z"
+                                fill="#5936A5" />
+                            </svg>
+                          </div>
+                        </td>
+                        <td class="text-cst-green text-base font-semibold pb-[20px] px-[10px]">
+                          Investor Presentation - November 2024
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px]">
+                          17.11.2024
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px] px-[20px]">
+                          15 MB
+                        </td>
+                        <td class="pb-[20px]">
+                          <button
+                            class="text-sm text-cst-blue font-medium border-[2px] border-cst-blue py-[8px] px-5 rounded-[10px] bg-cst-blue/10 hover:bg-cst-blue/20 transition-colors duration-300 cursor-pointer">
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr class="">
+                        <td class="text-cst-green pb-[20px]">
+                          <div
+                            class="w-10 h-10 flex justify-center items-center border-[1px] border-cst-peeler rounded-[10px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                              fill="none" class="min-w-6 min-h-6 max-w-6 max-h-6">
+                              <path
+                                d="M15.8002 2.20999C15.3902 1.79999 14.6802 2.07999 14.6802 2.64999V6.13999C14.6802 7.59999 15.9202 8.80999 17.4302 8.80999C18.3802 8.81999 19.7002 8.81999 20.8302 8.81999C21.4002 8.81999 21.7002 8.14999 21.3002 7.74999C19.8602 6.29999 17.2802 3.68999 15.8002 2.20999Z"
+                                fill="#F8BC09" />
+                              <path
+                                d="M20.5 10.19H17.61C15.24 10.19 13.31 8.26 13.31 5.89V3C13.31 2.45 12.86 2 12.31 2H8.07C4.99 2 2.5 4 2.5 7.57V16.43C2.5 20 4.99 22 8.07 22H15.93C19.01 22 21.5 20 21.5 16.43V11.19C21.5 10.64 21.05 10.19 20.5 10.19ZM11.5 17.75H7.5C7.09 17.75 6.75 17.41 6.75 17C6.75 16.59 7.09 16.25 7.5 16.25H11.5C11.91 16.25 12.25 16.59 12.25 17C12.25 17.41 11.91 17.75 11.5 17.75ZM13.5 13.75H7.5C7.09 13.75 6.75 13.41 6.75 13C6.75 12.59 7.09 12.25 7.5 12.25H13.5C13.91 12.25 14.25 12.59 14.25 13C14.25 13.41 13.91 13.75 13.5 13.75Z"
+                                fill="#F8BC09" />
+                            </svg>
+                          </div>
+                        </td>
+                        <td class="text-cst-green text-base font-semibold pb-[20px] px-[10px]">
+                          M&A Transaction Notice
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px]">
+                          10.11.2024
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px] px-[20px]">
+                          15 MB
+                        </td>
+                        <td class="pb-[20px]">
+                          <button
+                            class="text-sm text-cst-blue font-medium border-[2px] border-cst-blue py-[8px] px-5 rounded-[10px] bg-cst-blue/10 hover:bg-cst-blue/20 transition-colors duration-300 cursor-pointer">
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr class="">
+                        <td class="text-cst-green pb-[20px]">
+                          <div
+                            class="w-10 h-10 flex justify-center items-center border-[1px] border-cst-peeler rounded-[10px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                              fill="none" class="min-w-6 min-h-6 max-w-6 max-h-6">
+                              <path
+                                d="M15.8002 2.20999C15.3902 1.79999 14.6802 2.07999 14.6802 2.64999V6.13999C14.6802 7.59999 15.9202 8.80999 17.4302 8.80999C18.3802 8.81999 19.7002 8.81999 20.8302 8.81999C21.4002 8.81999 21.7002 8.14999 21.3002 7.74999C19.8602 6.29999 17.2802 3.68999 15.8002 2.20999Z"
+                                fill="#31A548" />
+                              <path
+                                d="M20.5 10.19H17.61C15.24 10.19 13.31 8.26 13.31 5.89V3C13.31 2.45 12.86 2 12.31 2H8.07C4.99 2 2.5 4 2.5 7.57V16.43C2.5 20 4.99 22 8.07 22H15.93C19.01 22 21.5 20 21.5 16.43V11.19C21.5 10.64 21.05 10.19 20.5 10.19ZM11.5 17.75H7.5C7.09 17.75 6.75 17.41 6.75 17C6.75 16.59 7.09 16.25 7.5 16.25H11.5C11.91 16.25 12.25 16.59 12.25 17C12.25 17.41 11.91 17.75 11.5 17.75ZM13.5 13.75H7.5C7.09 13.75 6.75 13.41 6.75 13C6.75 12.59 7.09 12.25 7.5 12.25H13.5C13.91 12.25 14.25 12.59 14.25 13C14.25 13.41 13.91 13.75 13.5 13.75Z"
+                                fill="#31A548" />
+                            </svg>
+                          </div>
+                        </td>
+                        <td class="text-cst-green text-base font-semibold pb-[20px] px-[10px]">
+                          Nine-Month Results 2024
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px]">
+                          03.11.2024
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px] px-[20px]">
+                          15 MB
+                        </td>
+                        <td class="pb-[20px]">
+                          <button
+                            class="text-sm text-cst-blue font-medium border-[2px] border-cst-blue py-[8px] px-5 rounded-[10px] bg-cst-blue/10 hover:bg-cst-blue/20 transition-colors duration-300 cursor-pointer">
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr class="">
+                        <td class="text-cst-green pb-[20px]">
+                          <div
+                            class="w-10 h-10 flex justify-center items-center border-[1px] border-cst-peeler rounded-[10px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                              fill="none" class="min-w-6 min-h-6 max-w-6 max-h-6">
+                              <path
+                                d="M15.8002 2.20999C15.3902 1.79999 14.6802 2.07999 14.6802 2.64999V6.13999C14.6802 7.59999 15.9202 8.80999 17.4302 8.80999C18.3802 8.81999 19.7002 8.81999 20.8302 8.81999C21.4002 8.81999 21.7002 8.14999 21.3002 7.74999C19.8602 6.29999 17.2802 3.68999 15.8002 2.20999Z"
+                                fill="#31A548" />
+                              <path
+                                d="M20.5 10.19H17.61C15.24 10.19 13.31 8.26 13.31 5.89V3C13.31 2.45 12.86 2 12.31 2H8.07C4.99 2 2.5 4 2.5 7.57V16.43C2.5 20 4.99 22 8.07 22H15.93C19.01 22 21.5 20 21.5 16.43V11.19C21.5 10.64 21.05 10.19 20.5 10.19ZM11.5 17.75H7.5C7.09 17.75 6.75 17.41 6.75 17C6.75 16.59 7.09 16.25 7.5 16.25H11.5C11.91 16.25 12.25 16.59 12.25 17C12.25 17.41 11.91 17.75 11.5 17.75ZM13.5 13.75H7.5C7.09 13.75 6.75 13.41 6.75 13C6.75 12.59 7.09 12.25 7.5 12.25H13.5C13.91 12.25 14.25 12.59 14.25 13C14.25 13.41 13.91 13.75 13.5 13.75Z"
+                                fill="#31A548" />
+                            </svg>
+                          </div>
+                        </td>
+                        <td class="text-cst-green text-base font-semibold pb-[20px] px-[10px]">
+                          9M 2024 Financial Results Presentation
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px]">
+                          03.11.2024
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px] px-[20px]">
+                          15 MB
+                        </td>
+                        <td class="pb-[20px]">
+                          <button
+                            class="text-sm text-cst-blue font-medium border-[2px] border-cst-blue py-[8px] px-5 rounded-[10px] bg-cst-blue/10 hover:bg-cst-blue/20 transition-colors duration-300 cursor-pointer">
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr class="">
+                        <td class="text-cst-green pb-[20px]">
+                          <div
+                            class="w-10 h-10 flex justify-center items-center border-[1px] border-cst-peeler rounded-[10px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                              fill="none" class="min-w-6 min-h-6 max-w-6 max-h-6">
+                              <path
+                                d="M15.8002 2.20999C15.3902 1.79999 14.6802 2.07999 14.6802 2.64999V6.13999C14.6802 7.59999 15.9202 8.80999 17.4302 8.80999C18.3802 8.81999 19.7002 8.81999 20.8302 8.81999C21.4002 8.81999 21.7002 8.14999 21.3002 7.74999C19.8602 6.29999 17.2802 3.68999 15.8002 2.20999Z"
+                                fill="#01B0F1" />
+                              <path
+                                d="M20.5 10.19H17.61C15.24 10.19 13.31 8.26 13.31 5.89V3C13.31 2.45 12.86 2 12.31 2H8.07C4.99 2 2.5 4 2.5 7.57V16.43C2.5 20 4.99 22 8.07 22H15.93C19.01 22 21.5 20 21.5 16.43V11.19C21.5 10.64 21.05 10.19 20.5 10.19ZM11.5 17.75H7.5C7.09 17.75 6.75 17.41 6.75 17C6.75 16.59 7.09 16.25 7.5 16.25H11.5C11.91 16.25 12.25 16.59 12.25 17C12.25 17.41 11.91 17.75 11.5 17.75ZM13.5 13.75H7.5C7.09 13.75 6.75 13.41 6.75 13C6.75 12.59 7.09 12.25 7.5 12.25H13.5C13.91 12.25 14.25 12.59 14.25 13C14.25 13.41 13.91 13.75 13.5 13.75Z"
+                                fill="#01B0F1" />
+                            </svg>
+                          </div>
+                        </td>
+                        <td class="text-cst-green text-base font-semibold pb-[20px] px-[10px]">
+                          Appointment of New Board Member
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px]">
+                          10.10.2024
+                        </td>
+                        <td class="text-[#5D7F85] text-sm font-medium pb-[20px] px-[20px]">
+                          15 MB
+                        </td>
+                        <td class="pb-[20px]">
+                          <button
+                            class="text-sm text-cst-blue font-medium border-[2px] border-cst-blue py-[8px] px-5 rounded-[10px] bg-cst-blue/10 hover:bg-cst-blue/20 transition-colors duration-300 cursor-pointer">
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Tab 4 -->
+        <div id="tab4" class="tab-content">
+          <!-- rest content -->
+          <div class="w-full md:mt-[16px] grid grid-cols-12 gap-6 md:gap-7 2xl:gap-[38px]">
+            <!-- item 1 - 1/2 -->
+            <div class="flex flex-col col-span-12 md:col-span-5">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Azionariato
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-6 2xl:p-10 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[300px] xl:min-h-[400px]">
+                <div class="flex flex-col items-center">
+                  <!-- Chart Container -->
+                  <div class="w-48 h-38 relative">
+                    <canvas id="shareholder" class="w-full h-full"></canvas>
+                  </div>
+
+                  <!-- Custom Legend -->
+                  <div class="mt-6 grid grid-cols-2 gap-4 justify-start text-sm font-normal">
+                    <div class="flex flex-col space-y-[10px]">
+                      <!-- Partecipazioni strategiche -->
+                      <div
+                        class="flex items-center space-x-[10px] justify-start p-[10px] rounded-lg border border-cst-peeler col-span-1">
+                        <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-blue"></div>
+                        <span class="text-xs text-cst-green mr-3">Partecipazioni strategiche</span>
+                      </div>
+                      <!-- Investitori istituzionali -->
+                      <div
+                        class="flex items-center space-x-[10px] justify-start p-[10px] rounded-lg border border-cst-peeler col-span-1">
+                        <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-greener"></div>
+                        <span class="text-xs text-cst-green mr-3">Investitori istituzionali</span>
+                      </div>
+                      <!-- Non rilevati e Retail -->
+                      <div
+                        class="flex items-center space-x-[10px] justify-start p-[10px] rounded-lg border border-cst-peeler col-span-1">
+                        <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-green"></div>
+                        <span class="text-xs text-cst-green mr-3">Non rilevati e Retail</span>
+                      </div>
+                    </div>
+                    <div class="flex flex-col space-y-[10px]">
+                      <!-- Fondazioni -->
+                      <div
+                        class="flex items-center space-x-[10px] justify-start p-[10px] rounded-lg border border-cst-peeler col-span-1">
+                        <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-blue"></div>
+                        <span class="text-xs text-cst-green mr-3">Fondazioni</span>
+                      </div>
+
+                      <!-- Azioni proprie -->
+                      <div
+                        class="flex items-center space-x-[10px] justify-start p-[10px] rounded-lg border border-cst-peeler col-span-1">
+                        <div class="min-w-[18px] min-h-[18px] rounded-sm bg-[#9400BD]"></div>
+                        <span class="text-xs text-cst-green mr-3">Azioni proprie</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- item 2 -3/3 -->
+            <div class="overflow-x-scroll lg:overflow-x-auto col-span-12 md:col-span-7 hide-scrollbar">
+              <table
+                class="min-w-[900px] lg:min-w-full table-auto border-collapse rounded-lg overflow-hidden font-semibold text-sm">
+                <thead class="bg-cst-green text-white">
+                  <tr>
+                    <th class="p-3 lg:p-4 text-left">Investitore</th>
+                    <th class="p-3 lg:p-4 text-left">% OS</th>
+                    <th class="p-3 lg:p-4 text-left">Tipologia</th>
+                    <th class="p-3 lg:p-4 text-left">Nazione</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white text-cst-green">
+                  <tr class="border-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Norges Bank</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">1.52</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Sovereign Wealth Fund
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Norvegia</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Azimut Investments
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">1.27</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Investment Advisor
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Italia</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Geode Capital</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">0.82</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Hedge Fund</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">USA</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler rounded-b-lg">
+                    <td class="p-3 lg:p-3.5 text-cst-green">PGGM</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">0.47</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Fondo pensione</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Olanda</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- item 3 - 1/2 -->
+            <div class="flex flex-col col-span-12 lg:mb-[10px]">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Geografia degli investitori istituzionali
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-6 2xl:p-10 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[420px]">
+                <img src="./img/maps.svg" alt="" />
+              </div>
+            </div>
+            <!-- item 4 -3/3 -->
+            <div class="overflow-x-scroll lg:overflow-x-auto col-span-12 hide-scrollbar lg:mb-[5px]">
+              <table
+                class="min-w-[900px] lg:min-w-full table-auto border-collapse rounded-lg overflow-hidden font-semibold text-sm">
+                <thead class="bg-cst-green text-white">
+                  <tr>
+                    <th class="p-3 lg:p-4 text-left">Investitore</th>
+                    <th class="p-3 lg:p-4 text-left">Tipologia</th>
+                    <th class="p-3 lg:p-4 text-left">
+                      Valore investito nella società (%)
+                    </th>
+                    <th class="p-3 lg:p-4 text-left">
+                      Valore medio investito nei Peer (%)
+                    </th>
+                    <th class="p-3 lg:p-4 text-left">Under/Overweight</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white text-cst-green">
+                  <tr class="border-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">BlackRock</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Investment Advisor
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">4.31</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">3.55</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Overweight</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">The Vanguard</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Investment Advisor
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">3.27</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">2.93</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Overweight</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Norges Bank Investment Management
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Investment Advisor
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">2.52</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">2.98</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Underweight</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Frank Russel</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Investment Advisor
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">1.18</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">1.03</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Overweight</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Manulife Financial
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Assicurazione</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">0.73</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">1.44</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Underweight</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- item 5 - 1/2 -->
+            <div class="flex flex-col col-span-12">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Investor Profiling
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-6 2xl:p-10 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[420px] flex md:flex-row flex-col items-center md:justify-start gap-5">
+                <!-- card 1 -->
+                <div
+                  class="p-5 lg:p-10 flex flex-col text-center border-[2px] border-cst-peeler rounded-[10px] bg-white max-w-[390px]">
+                  <!-- 1 -->
+                  <div class="text-center">
+                    <h4 class="text-lg text-cst-green font-semibold mb-[10px]">
+                      Black Rock Global Funds
+                    </h4>
+                    <span
+                      class="text-sm text-cst-blue px-5 py-[5px] border-[2px] rounded-[5px] border-cst-blue bg-cst-blue/10">Investment
+                      Advisor</span>
+                  </div>
+                  <!-- 2 -->
+                  <div>
+                    <h4 class="text-base text-cst-green font-semibold mt-6 md:mt-10 mb-4">
+                      Info
+                    </h4>
+
+                    <div class="flex flex-col items-start gap-y-2.5">
+                      <div class="flex flex-row items-center gap-x-[9px]">
+                        <div class="flex flex-row items-center gap-x-[9px]">
+                          <div class="p-2 border-[1px] border-cst-peeler rounded-[8px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20"
+                              fill="none">
+                              <path
+                                d="M10.4994 2.42993C8.41543 2.42993 6.72119 4.12417 6.72119 6.20816C6.72119 8.25238 8.31998 9.90685 10.404 9.97844C10.4676 9.97048 10.5312 9.97048 10.579 9.97844C10.5949 9.97844 10.6028 9.97844 10.6187 9.97844C10.6267 9.97844 10.6267 9.97844 10.6346 9.97844C12.6709 9.90685 14.2697 8.25238 14.2776 6.20816C14.2776 4.12417 12.5834 2.42993 10.4994 2.42993Z"
+                                fill="#045E70" />
+                              <path
+                                d="M14.5404 12.0942C12.3211 10.6148 8.70199 10.6148 6.46687 12.0942C5.45669 12.7703 4.8999 13.6851 4.8999 14.6634C4.8999 15.6418 5.45669 16.5486 6.45892 17.2167C7.5725 17.9644 9.03607 18.3382 10.4996 18.3382C11.9632 18.3382 13.4268 17.9644 14.5404 17.2167C15.5426 16.5406 16.0994 15.6338 16.0994 14.6475C16.0914 13.6692 15.5426 12.7624 14.5404 12.0942Z"
+                                fill="#045E70" />
+                            </svg>
+                          </div>
+                          <span class="text-sm text-cst-green font-semibold md:min-w-[146px]">Portfolio Manager</span>
+                        </div>
+                        <span class="text-base text-cst-gray-mid font-medium">John Smith</span>
+                      </div>
+                      <div class="flex flex-row items-center gap-x-[9px]">
+                        <div class="flex flex-row items-center gap-x-[9px]">
+                          <div class="p-2 border-[1px] border-cst-peeler rounded-[8px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20"
+                              fill="none">
+                              <path
+                                d="M17.3563 7.55952C16.5211 3.88469 13.3156 2.23022 10.4998 2.23022C10.4998 2.23022 10.4998 2.23022 10.4919 2.23022C7.68403 2.23022 4.47055 3.87674 3.63536 7.55156C2.70472 11.6559 5.21824 15.1319 7.49313 17.3193C8.33627 18.1306 9.41804 18.5363 10.4998 18.5363C11.5816 18.5363 12.6633 18.1306 13.4985 17.3193C15.7734 15.1319 18.2869 11.6639 17.3563 7.55952ZM10.4998 11.5446C9.11578 11.5446 7.99424 10.423 7.99424 9.03899C7.99424 7.65497 9.11578 6.53343 10.4998 6.53343C11.8838 6.53343 13.0054 7.65497 13.0054 9.03899C13.0054 10.423 11.8838 11.5446 10.4998 11.5446Z"
+                                fill="#045E70" />
+                            </svg>
+                          </div>
+                          <span class="text-base text-cst-green font-semibold md:min-w-[146px]">Portfolio Manager</span>
+                        </div>
+                        <span class="text-base text-cst-gray-mid font-medium">John Smith</span>
+                      </div>
+                      <div class="flex flex-row items-center gap-x-[9px]">
+                        <div class="flex flex-row items-center gap-x-[9px]">
+                          <div class="p-2 border-[1px] border-cst-peeler rounded-[8px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20"
+                              fill="none">
+                              <path
+                                d="M17.7301 6.38948C17.054 5.64179 15.9245 5.26794 14.2859 5.26794H14.095V5.23613C14.095 3.89983 14.095 2.24536 11.1042 2.24536H9.8952C6.90443 2.24536 6.90443 3.90778 6.90443 5.23613V5.2759H6.71353C5.06702 5.2759 3.94548 5.64974 3.26938 6.39744C2.48192 7.27239 2.50578 8.44961 2.58532 9.25298L2.59328 9.30866L2.65489 9.95556C2.66623 10.0747 2.73039 10.1823 2.83053 10.2478C3.02127 10.3727 3.34051 10.5784 3.53187 10.6847C3.64323 10.7563 3.76254 10.82 3.88185 10.8836C5.24201 11.6313 6.7374 12.1324 8.25664 12.379C8.32823 13.1267 8.65435 14.0016 10.3963 14.0016C12.1383 14.0016 12.4803 13.1346 12.536 12.3631C14.1586 12.1006 15.7256 11.5358 17.1414 10.7086C17.1892 10.6847 17.221 10.6609 17.2608 10.637C17.5763 10.4587 17.9037 10.2389 18.2021 10.0236C18.292 9.95877 18.3495 9.85849 18.3617 9.74832L18.3743 9.63478L18.4141 9.26094C18.4221 9.21321 18.4221 9.17344 18.43 9.11776C18.4937 8.31439 18.4777 7.21672 17.7301 6.38948ZM11.3667 11.8381C11.3667 12.6812 11.3667 12.8085 10.3884 12.8085C9.41 12.8085 9.41 12.6574 9.41 11.846V10.8438H11.3667V11.8381ZM8.04188 5.26794V5.23613C8.04188 3.88392 8.04188 3.38281 9.8952 3.38281H11.1042C12.9576 3.38281 12.9576 3.89187 12.9576 5.23613V5.2759H8.04188V5.26794Z"
+                                fill="#045E70" />
+                              <path
+                                d="M17.5578 11.7618C17.839 11.628 18.1629 11.8509 18.1348 12.1611L17.8493 15.306C17.6823 16.8969 17.03 18.5195 13.5302 18.5195H7.4691C3.96927 18.5195 3.31703 16.8969 3.14999 15.314L2.87899 12.3329C2.85111 12.0263 3.16765 11.8036 3.44815 11.9305C4.35446 12.3406 6.02733 13.068 7.06071 13.3387C7.19141 13.3729 7.29711 13.4665 7.35434 13.5889C7.83713 14.6214 8.88424 15.1708 10.3962 15.1708C11.8933 15.1708 12.9536 14.6002 13.438 13.5652C13.4953 13.4427 13.6011 13.3492 13.7319 13.3148C14.8292 13.026 16.6099 12.2128 17.5578 11.7618Z"
+                                fill="#045E70" />
+                            </svg>
+                          </div>
+                          <span class="text-base text-cst-green font-semibold md:min-w-[146px]">Portfolio Manager</span>
+                        </div>
+                        <span class="text-base text-cst-gray-mid font-medium">John Smith</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 3 -->
+                  <div class="mb-9 md:mb-10.5 mt-8 md:mt-9.5">
+                    <h5 class="text-base font-semibold text-cst-green text-center">
+                      Stile di investimento
+                    </h5>
+                    <div class="flex flex-row items-center gap-x-5 mt-4 justify-center">
+                      <span class="px-5 py-[5px] rounded-[5px] bg-[#9188EE] text-white text-sm font-medium">Value</span>
+                      <span class="px-5 py-[5px] rounded-[5px] bg-[#4CAF4F] text-white text-sm font-medium">Yield</span>
+                    </div>
+                  </div>
+                  <!-- 4 -->
+                  <button
+                    class="inline-block w-auto bg-cst-blue px-10 py-[10px] text-base rounded-[10px] text-white cursor-pointer font-semibold transition-colors duration-300 hover:bg-cst-blue-hover hover:bg-cst-green">
+                    Altro
+                  </button>
+                </div>
+                <!-- card 2 -->
+                <div
+                  class="p-5 lg:p-10 flex flex-col text-center border-[2px] border-cst-peeler rounded-[10px] bg-white max-w-[390px] pointer-events-none opacity-50 cursor-not-allowed">
+                  <!-- 1 -->
+                  <div class="text-center">
+                    <h4 class="text-lg text-cst-green font-semibold mb-[10px]">
+                      Black Rock Global Funds
+                    </h4>
+                    <span
+                      class="text-sm text-cst-blue px-5 py-[5px] border-[2px] rounded-[5px] border-cst-blue bg-cst-blue/10">Investment
+                      Advisor</span>
+                  </div>
+                  <!-- 2 -->
+                  <div>
+                    <h4 class="text-base text-cst-green font-semibold mt-6 md:mt-10 mb-4">
+                      Info
+                    </h4>
+
+                    <div class="flex flex-col items-start gap-y-2.5">
+                      <div class="flex flex-row items-center gap-x-[9px]">
+                        <div class="flex flex-row items-center gap-x-[9px]">
+                          <div class="p-2 border-[1px] border-cst-peeler rounded-[8px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20"
+                              fill="none">
+                              <path
+                                d="M10.4994 2.42993C8.41543 2.42993 6.72119 4.12417 6.72119 6.20816C6.72119 8.25238 8.31998 9.90685 10.404 9.97844C10.4676 9.97048 10.5312 9.97048 10.579 9.97844C10.5949 9.97844 10.6028 9.97844 10.6187 9.97844C10.6267 9.97844 10.6267 9.97844 10.6346 9.97844C12.6709 9.90685 14.2697 8.25238 14.2776 6.20816C14.2776 4.12417 12.5834 2.42993 10.4994 2.42993Z"
+                                fill="#045E70" />
+                              <path
+                                d="M14.5404 12.0942C12.3211 10.6148 8.70199 10.6148 6.46687 12.0942C5.45669 12.7703 4.8999 13.6851 4.8999 14.6634C4.8999 15.6418 5.45669 16.5486 6.45892 17.2167C7.5725 17.9644 9.03607 18.3382 10.4996 18.3382C11.9632 18.3382 13.4268 17.9644 14.5404 17.2167C15.5426 16.5406 16.0994 15.6338 16.0994 14.6475C16.0914 13.6692 15.5426 12.7624 14.5404 12.0942Z"
+                                fill="#045E70" />
+                            </svg>
+                          </div>
+                          <span class="text-base text-cst-green font-semibold md:min-w-[146px]">Portfolio Manager</span>
+                        </div>
+                        <span class="text-base text-cst-gray-mid font-medium">John Smith</span>
+                      </div>
+                      <div class="flex flex-row items-center gap-x-[9px]">
+                        <div class="flex flex-row items-center gap-x-[9px]">
+                          <div class="p-2 border-[1px] border-cst-peeler rounded-[8px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20"
+                              fill="none">
+                              <path
+                                d="M17.3563 7.55952C16.5211 3.88469 13.3156 2.23022 10.4998 2.23022C10.4998 2.23022 10.4998 2.23022 10.4919 2.23022C7.68403 2.23022 4.47055 3.87674 3.63536 7.55156C2.70472 11.6559 5.21824 15.1319 7.49313 17.3193C8.33627 18.1306 9.41804 18.5363 10.4998 18.5363C11.5816 18.5363 12.6633 18.1306 13.4985 17.3193C15.7734 15.1319 18.2869 11.6639 17.3563 7.55952ZM10.4998 11.5446C9.11578 11.5446 7.99424 10.423 7.99424 9.03899C7.99424 7.65497 9.11578 6.53343 10.4998 6.53343C11.8838 6.53343 13.0054 7.65497 13.0054 9.03899C13.0054 10.423 11.8838 11.5446 10.4998 11.5446Z"
+                                fill="#045E70" />
+                            </svg>
+                          </div>
+                          <span class="text-base text-cst-green font-semibold md:min-w-[146px]">Portfolio Manager</span>
+                        </div>
+                        <span class="text-base text-cst-gray-mid font-medium">John Smith</span>
+                      </div>
+                      <div class="flex flex-row items-center gap-x-[9px]">
+                        <div class="flex flex-row items-center gap-x-[9px]">
+                          <div class="p-2 border-[1px] border-cst-peeler rounded-[8px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20"
+                              fill="none">
+                              <path
+                                d="M17.7301 6.38948C17.054 5.64179 15.9245 5.26794 14.2859 5.26794H14.095V5.23613C14.095 3.89983 14.095 2.24536 11.1042 2.24536H9.8952C6.90443 2.24536 6.90443 3.90778 6.90443 5.23613V5.2759H6.71353C5.06702 5.2759 3.94548 5.64974 3.26938 6.39744C2.48192 7.27239 2.50578 8.44961 2.58532 9.25298L2.59328 9.30866L2.65489 9.95556C2.66623 10.0747 2.73039 10.1823 2.83053 10.2478C3.02127 10.3727 3.34051 10.5784 3.53187 10.6847C3.64323 10.7563 3.76254 10.82 3.88185 10.8836C5.24201 11.6313 6.7374 12.1324 8.25664 12.379C8.32823 13.1267 8.65435 14.0016 10.3963 14.0016C12.1383 14.0016 12.4803 13.1346 12.536 12.3631C14.1586 12.1006 15.7256 11.5358 17.1414 10.7086C17.1892 10.6847 17.221 10.6609 17.2608 10.637C17.5763 10.4587 17.9037 10.2389 18.2021 10.0236C18.292 9.95877 18.3495 9.85849 18.3617 9.74832L18.3743 9.63478L18.4141 9.26094C18.4221 9.21321 18.4221 9.17344 18.43 9.11776C18.4937 8.31439 18.4777 7.21672 17.7301 6.38948ZM11.3667 11.8381C11.3667 12.6812 11.3667 12.8085 10.3884 12.8085C9.41 12.8085 9.41 12.6574 9.41 11.846V10.8438H11.3667V11.8381ZM8.04188 5.26794V5.23613C8.04188 3.88392 8.04188 3.38281 9.8952 3.38281H11.1042C12.9576 3.38281 12.9576 3.89187 12.9576 5.23613V5.2759H8.04188V5.26794Z"
+                                fill="#045E70" />
+                              <path
+                                d="M17.5578 11.7618C17.839 11.628 18.1629 11.8509 18.1348 12.1611L17.8493 15.306C17.6823 16.8969 17.03 18.5195 13.5302 18.5195H7.4691C3.96927 18.5195 3.31703 16.8969 3.14999 15.314L2.87899 12.3329C2.85111 12.0263 3.16765 11.8036 3.44815 11.9305C4.35446 12.3406 6.02733 13.068 7.06071 13.3387C7.19141 13.3729 7.29711 13.4665 7.35434 13.5889C7.83713 14.6214 8.88424 15.1708 10.3962 15.1708C11.8933 15.1708 12.9536 14.6002 13.438 13.5652C13.4953 13.4427 13.6011 13.3492 13.7319 13.3148C14.8292 13.026 16.6099 12.2128 17.5578 11.7618Z"
+                                fill="#045E70" />
+                            </svg>
+                          </div>
+                          <span class="text-base text-cst-green font-semibold md:min-w-[146px]">Portfolio Manager</span>
+                        </div>
+                        <span class="text-base text-cst-gray-mid font-medium">John Smith</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 3 -->
+                  <div class="mb-9 md:mb-10.5 mt-8 md:mt-9.5">
+                    <h5 class="text-base font-semibold text-cst-green text-center">
+                      Stile di investimento
+                    </h5>
+                    <div class="flex flex-row items-center gap-x-5 mt-4 justify-center">
+                      <span class="px-5 py-[5px] rounded-[5px] bg-[#9188EE] text-white text-sm font-medium">Value</span>
+                      <span class="px-5 py-[5px] rounded-[5px] bg-[#4CAF4F] text-white text-sm font-medium">Yield</span>
+                    </div>
+                  </div>
+                  <!-- 4 -->
+                  <button
+                    class="inline-block w-auto bg-cst-blue px-10 py-[10px] text-base rounded-[10px] text-white cursor-pointer font-semibold transition-colors duration-300 hover:bg-cst-blue-hover hover:bg-cst-green">
+                    See more
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Tab 5 -->
+        <div id="tab5" class="tab-content">
+          <!-- rest content -->
+          <div class="w-full md:mt-[16px] grid grid-cols-12 gap-6 md:gap-7 2xl:gap-[38px]">
+            <!-- item 1 -3/3 -->
+            <div class="overflow-x-scroll lg:overflow-x-auto col-span-12 hide-scrollbar">
+              <table
+                class="min-w-[500px] lg:min-w-full table-auto border-collapse rounded-lg overflow-hidden font-semibold text-sm">
+                <thead class="bg-cst-green text-white">
+                  <tr>
+                    <th class="p-3 lg:p-4 text-left"></th>
+                    <th class="p-3 lg:p-4 text-left">Alpha</th>
+                    <th class="p-3 lg:p-4 text-left">Beta</th>
+                    <th class="p-3 lg:p-4 text-left">Gamma</th>
+                    <th class="p-3 lg:p-4 text-left">Delta</th>
+                    <th class="p-3 lg:p-4 text-left">Epsilon</th>
+                    <th class="p-3 lg:p-4 text-left">Media Peer Group</th>
+                    <th class="p-3 lg:p-4 text-left">Mediana Peer Group</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white text-cst-green">
+                  <tr class="border-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">EV/EBITDA '25E</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">10.0</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">5.0</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">7.0</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">13.0</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">20.0</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">11.3</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">10.0</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">EV/EBITDA '25E</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">10.0</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">5.0</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">7.0</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">13.0</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">20.0</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">11.3</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">10.0</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">EV/EBIT '25E</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">19.3</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">8.9</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">12.1</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">26.2</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">42.5</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">22.4</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">19.2</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">EV/EBIT '26E</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">11.5</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">8.4</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">10.6</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">19.2</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">18.8</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">14.3</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">14.7</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">EV/EBIT '26E</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">1.7%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">5.6%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">3.8%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">0.0%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">0.0%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">2.4%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">1.9%</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler rounded-b-lg">
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Dividend Yield '26E
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">2.7%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">6.6%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">4.8%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">1.0%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">1.0%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">3.4%</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">2.9%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- item 2 -3/3 -->
+            <div class="overflow-x-scroll lg:overflow-x-auto col-span-12 hide-scrollbar">
+              <table
+                class="min-w-[900px] lg:min-w-full table-auto border-collapse rounded-lg overflow-hidden font-semibold text-sm">
+                <thead class="bg-cst-green text-white">
+                  <tr>
+                    <th class="p-3 lg:p-4 text-left">Broker</th>
+                    <th class="p-3 lg:p-4 text-left">Analista</th>
+                    <th class="p-3 lg:p-4 text-left">Ultimo aggiornamento</th>
+                    <th class="p-3 lg:p-4 text-left">Rating</th>
+                    <th class="p-3 lg:p-4 text-left">Target price</th>
+                    <th class="p-3 lg:p-4 text-left">Potenzialen</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white text-cst-green">
+                  <tr class="border-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Banca Akros</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Gianmarco</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">26/11/2024</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Neutral</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">0.26</td>
+                    <td class="p-3 lg:p-3.5 text-cst-greener">+2%</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Bank of America</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">David Wright</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">06/12/2024</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Buy</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">0.37</td>
+                    <td class="p-3 lg:p-3.5 text-cst-greener">+46%</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Barclays</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Mathieu Robilliard
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">01/12/2024</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Neutral</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">0.25</td>
+                    <td class="p-3 lg:p-3.5 text-cst-red">-2%</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Bernstein</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">
+                      Ottavio Adorisio
+                    </td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">01/12/2024</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Neutral</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">0.25</td>
+                    <td class="p-3 lg:p-3.5 text-cst-red">-2%</td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler rounded-b-lg">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Bank of America</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">David Wright</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">06/12/2024</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">Buy</td>
+                    <td class="p-3 lg:p-3.5 text-cst-green">0.37</td>
+                    <td class="p-3 lg:p-3.5 text-cst-greener">+46%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- item 3 - 1/2 -->
+            <div class="flex flex-col col-span-12 md:col-span-6">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  PE FWD 12m VS EPS GAGR
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-5 2xl:p-6 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[400px]">
+                <div class="">
+                  <!-- Chart Container -->
+                  <div class="w-full max-h-38 mb-8">
+                    <span class="text-sm text-cst-gray-light relative left-10">PE FWD 12m</span>
+                    <canvas id="gagrs"></canvas>
+                  </div>
+                  <div class="flex flex-col items-center mx-auto pt-5">
+                    <span class="text-sm text-cst-gray-light">EPS GAGR</span>
+                    <div class="flex flex-wrap item-center justify-center gap-2 max-w-[300px] mt-4">
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Epsilon</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Delta</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-indigo-500 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Beta</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-purple-800 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Gamma</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Alpha</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Legend -->
+                </div>
+              </div>
+            </div>
+            <!-- item 4 - 1/2 -->
+            <div class="flex flex-col col-span-12 md:col-span-6">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Performance vs competitor
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-6 2xl:p-10 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[405px]">
+                <div class="max-w-2xl w-full">
+                  <div class="relative max-h-38 w-full">
+                    <canvas id="pricePerformanceChart"></canvas>
+                  </div>
+
+                  <div class="flex flex-col items-center mx-auto pt-5">
+                    <span class="text-sm text-cst-gray-light">date</span>
+                    <div class="flex flex-wrap item-center justify-center gap-2 max-w-[300px] mt-4">
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Epsilon</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-cst-blue rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Delta</span>
+                      </div>
+
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-cst-blue rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Delta</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-cst-green rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Beta</span>
+                      </div>
+                      <div
+                        class="flex items-center bg-white rounded-lg p-2 border-[1px] border-cst-peeler max-w-[100px]">
+                        <div class="w-4 h-4 bg-cst-red rounded-full mr-2"></div>
+                        <span class="text-cst-green text-xs">Alpha</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Tab 6 -->
+        <div id="tab6" class="tab-content">
+          <!-- rest content -->
+          <div class="w-full md:mt-[16px] grid grid-cols-12 gap-6 md:gap-7 2xl:gap-[30px]">
+            <!-- item 1 - 3/3 -->
+            <div class="flex flex-col col-span-12 md:col-span-7">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Retail Sentiment
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-6 2xl:p-6 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[380px] relative">
+                <!-- infos -->
+                <div
+                  class="inline-flex flex-col gap-y-4 md:absolute top-6 right-6 lg:top-[40px] lg:right-[40px] ms-auto">
+                  <!-- 1 -->
+                  <div
+                    class="inline-flex flex-row items-center justify-between p-[10px] rounded-[5px] border-[1px] border-cst-peeler gap-x-[50px]">
+                    <div class="flex flex-row gap-x-[10px]">
+                      <div class="w-[18px] h-[18px] bg-cst-greener rounded-[5px]"></div>
+                      <span class="text-sm text-cst-green">Positive</span>
+                    </div>
+                    <span class="text-sm text-cst-gray-light">80%</span>
+                  </div>
+                  <!-- 2 -->
+                  <div
+                    class="inline-flex flex-row items-center justify-between p-[10px] rounded-[5px] border-[1px] border-cst-peeler gap-x-[50px]">
+                    <div class="flex flex-row gap-x-[10px]">
+                      <div class="w-[18px] h-[18px] bg-cst-red rounded-[5px]"></div>
+                      <span class="text-sm text-cst-green">Negative</span>
+                    </div>
+                    <span class="text-sm text-cst-gray-light">20%</span>
+                  </div>
+                </div>
+                <!-- Chart container -->
+                <div
+                  class="relative w-full max-w-[350px] 2xl:max-w-[400px] flex justify-center items-center 2xl:-mt-16 xl:-mt-8 md:mt-12">
+                  <canvas id="sentimentChart" class="max-w-full !w-[260px] !h-[260px]"></canvas>
+
+                  <!-- Center text overlay -->
+                  <div
+                    class="absolute inset-0 flex flex-col items-center justify-center bottom-0 left-0 right-0 top-30 md:top-40 2xl:top-50">
+                    <div
+                      class="inline-flex justify-center items-center min-w-[64px] min-h-[64px] xl:min-w-[80px] xl:min-h-[80px] 2xl:min-w-[100px] 2xl:min-h-[100px] rounded-full bg-white shadow-lg">
+                      <img src="./img/chart-clock.png" alt="Sentiment Icon" class="w-6 h-6 2xl:w-11 2xl:h-11" />
+                    </div>
+                    <p class="text-cst-greener font-semibold text-sm 2:text-2xl mt-5">
+                      Positivo
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- item 2 - 2/3 -->
+            <div class="flex flex-col col-span-12 md:col-span-5">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Menzioni e Tag
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-6 2xl:p-6 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[380px]">
+                <div class="flex flex-col items-center">
+                  <!-- Chart Container -->
+                  <div class="w-48 h-38 relative">
+                    <canvas id="trafficChart" class="w-full h-full"></canvas>
+                  </div>
+
+                  <!-- Custom Legend -->
+                  <div class="mt-6 flex flex-wrap gap-3 justify-start text-sm font-medium text-gray-700">
+                    <!-- Oggi -->
+                    <div class="flex items-center space-x-2 p-[10px] rounded-lg border border-gray-200">
+                      <div class="w-[18px] h-[18px] rounded-sm bg-cst-greener"></div>
+                      <span class="text-xs text-cst-green mr-3">Oggi :</span>
+                      <span class="text-cst-gray-light text-sm">20 456</span>
+                    </div>
+
+                    <!-- Ultima settimana -->
+                    <div class="flex items-center space-x-2 p-[10px] rounded-lg border border-gray-200">
+                      <div class="w-[18px] h-[18px] rounded-sm bg-cst-red"></div>
+                      <span class="text-xs text-cst-green mr-3">Ultima settimana :</span>
+                      <span class="text-cst-gray-light text-sm">22 187</span>
+                    </div>
+
+                    <!-- Ultimo mese -->
+                    <div class="flex items-center space-x-2 p-[10px] rounded-lg border border-gray-200">
+                      <div class="w-[18px] h-[18px] rounded-sm bg-[#DDEFF8]"></div>
+                      <span class="text-xs text-cst-green mr-3">Ultimo mese :</span>
+                      <span class="text-cst-gray-light text-sm">21 290</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- item 3 - 3/3 -->
+            <div class="flex flex-col col-span-12 md:col-span-7">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Keywords
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-6 2xl:p-6 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[380px] flex items-center justify-center">
+                <div class="w-140 h-44 mx-auto relative">
+                  <canvas class="mt-3" id="keywords"></canvas>
+                </div>
+              </div>
+            </div>
+            <!-- item 4 - 2/3 -->
+            <div class="flex flex-col col-span-12 md:col-span-5">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-base md:text-lg font-semibold text-cst-green">
+                  Distribuzione geografica
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-6 2xl:p-6 bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px] md:min-h-[290px] lg:min-h-[330px] xl:min-h-[380px]">
+                <div class="flex flex-col items-center">
+                  <!-- Chart Container -->
+                  <div class="w-48 h-38 relative">
+                    <canvas id="geografica" class="w-full h-full"></canvas>
+                  </div>
+
+                  <!-- Custom Legend -->
+                  <div class="mt-6 grid grid-cols-2 gap-3 justify-start text-sm font-normal">
+                    <!-- uk -->
+                    <div
+                      class="flex items-center space-x-2 justify-between p-[10px] rounded-lg border border-gray-200 col-span-1">
+                      <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-greener"></div>
+                      <span class="text-xs text-cst-green mr-3">UK</span>
+                      <span class="text-cst-gray-light text-sm">30%</span>
+                    </div>
+
+                    <!-- usa -->
+                    <div
+                      class="flex items-center space-x-2 justify-between p-[10px] rounded-lg border border-gray-200 col-span-1">
+                      <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-blue"></div>
+                      <span class="text-xs text-cst-green mr-3">USA</span>
+                      <span class="text-cst-gray-light text-sm">30%</span>
+                    </div>
+
+                    <!-- Italy -->
+                    <div
+                      class="flex items-center space-x-2 justify-between p-[10px] rounded-lg border border-gray-200 col-span-1">
+                      <div class="min-w-[18px] min-h-[18px] rounded-sm bg-cst-red"></div>
+                      <span class="text-xs text-cst-green mr-3">Italy</span>
+                      <span class="text-cst-gray-light text-sm">25%</span>
+                    </div>
+                    <!-- Germany -->
+                    <div
+                      class="flex items-center space-x-2 justify-between p-[10px] rounded-lg border border-gray-200 col-span-1">
+                      <div class="min-w-[18px] min-h-[18px] rounded-sm bg-[#9400BD]"></div>
+                      <span class="text-xs text-cst-green mr-3">Germany</span>
+                      <span class="text-cst-gray-light text-sm">15%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- item 5 -3/3 -->
+            <div class="overflow-x-scroll lg:overflow-x-auto col-span-12 hide-scrollbar mt-[10px]">
+              <table
+                class="min-w-[900px] lg:min-w-full table-auto border-collapse rounded-lg overflow-hidden font-semibold text-sm">
+                <thead class="bg-cst-green text-white">
+                  <tr>
+                    <th class="p-3 lg:p-4 text-left">vedi mail</th>
+                    <th class="p-3 lg:p-4 text-left">Sentiment</th>
+                    <th class="p-3 lg:p-4 text-left">Testo</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white text-cst-green">
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler rounded-b-lg">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Telegram</td>
+                    <td class="p-3 lg:p-3.5 text-cst-greener">Positivo</td>
+                    <td class="p-3 lg:p-3.5">
+                      Lorem ipsum is a dummy or placeholder text commonly
+                    </td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler rounded-b-lg">
+                    <td class="p-3 lg:p-3.5 text-cst-green">X</td>
+                    <td class="p-3 lg:p-3.5 text-cst-greener">Positivo</td>
+                    <td class="p-3 lg:p-3.5">
+                      Lorem ipsum is a dummy or placeholder text commonly
+                    </td>
+                  </tr>
+                  <tr class="border-b-[2px] border-x-[2px] border-cst-peeler rounded-b-lg">
+                    <td class="p-3 lg:p-3.5 text-cst-green">Telegram</td>
+                    <td class="p-3 lg:p-3.5 text-cst-greener">Positivo</td>
+                    <td class="p-3 lg:p-3.5">
+                      Lorem ipsum is a dummy or placeholder text commonly
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Tab 7 -->
+        <div id="tab7" class="tab-content">
+          <!-- rest content -->
+          <div class="w-full 2xl:mt-[16px]">
+            <div class="flex flex-col">
+              <!-- top -->
+              <div
+                class="px-5 py-3 2xl:px-8 2xl:py-5 bg-white border-t-[2px] border-x-[2px] border-cst-peeler rounded-t-[10px] rounded-x-[10px]">
+                <h3 class="text-lg font-semibold text-cst-green">
+                  Upload files
+                </h3>
+              </div>
+              <!-- bottom -->
+              <div
+                class="p-6 md:p-8 lg:px-20 2xl:px-[167px] 2xl:py-[85px] bg-white border-[2px] border-cst-peeler rounded-b-[10px] rounded-x-[10px]">
+                <!-- upload area -->
+                <div id="upload-area"
+                  class="border-[3px] border-dashed border-cst-peeler rounded-[5px] p-6 flex flex-col items-center justify-center text-center py-10 lg:py-[93px] min-h-[200px] bg-white"
+                  data-drop-target="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="47" height="47" viewBox="0 0 47 47" fill="none">
+                    <path
+                      d="M14.7991 37.5684H11.119C5.484 37.1659 2.9541 32.8342 2.9541 28.9817C2.9541 25.1292 5.48403 20.7784 11.0232 20.3951C11.809 20.3184 12.499 20.9317 12.5565 21.7367C12.614 22.5226 12.0199 23.2126 11.2149 23.2701C7.4966 23.5384 5.8291 26.3367 5.8291 29.0009C5.8291 31.665 7.4966 34.4634 11.2149 34.7317H14.7991C15.5849 34.7317 16.2366 35.3834 16.2366 36.1692C16.2366 36.955 15.5849 37.5684 14.7991 37.5684Z"
+                      fill="#292D32" />
+                    <path
+                      d="M32.4502 37.5683C32.4119 37.5683 32.3927 37.5683 32.3544 37.5683C31.5686 37.5683 30.8403 36.9167 30.8403 36.1308C30.8403 35.3067 31.4536 34.6933 32.2586 34.6933C34.6161 34.6933 36.7244 33.8692 38.3728 32.3933C41.3628 29.7867 41.5544 26.03 40.7494 23.385C39.9444 20.7592 37.7019 17.75 33.7919 17.2708C33.1594 17.1942 32.661 16.715 32.546 16.0825C31.7794 11.4825 29.3069 8.30085 25.5503 7.15085C21.6786 5.94335 17.1552 7.13168 14.3377 10.0833C11.5969 12.9392 10.9644 16.945 12.5552 21.3534C12.8236 22.1009 12.4403 22.925 11.6928 23.1933C10.9453 23.4617 10.1211 23.0783 9.85277 22.3308C7.91694 16.9258 8.79862 11.7508 12.2678 8.10918C15.8136 4.39085 21.5061 2.915 26.3936 4.41C30.8786 5.79 34.041 9.48917 35.191 14.6258C39.101 15.5075 42.2444 18.4784 43.4902 22.58C44.8511 27.0459 43.6244 31.6459 40.2703 34.5592C38.1428 36.4759 35.3636 37.5683 32.4502 37.5683Z"
+                      fill="#292D32" />
+                    <path
+                      d="M23.5003 43.2034C19.6478 43.2034 16.0445 41.1525 14.0704 37.8367C13.8595 37.5109 13.6487 37.1275 13.4762 36.7059C12.8245 35.345 12.4795 33.7925 12.4795 32.1825C12.4795 26.1067 17.4245 21.1617 23.5003 21.1617C29.5762 21.1617 34.5212 26.1067 34.5212 32.1825C34.5212 33.8117 34.1762 35.345 33.4862 36.7634C33.3329 37.1275 33.122 37.5109 32.892 37.875C30.9562 41.1525 27.3528 43.2034 23.5003 43.2034ZM23.5003 24.0367C19.0153 24.0367 15.3545 27.6975 15.3545 32.1825C15.3545 33.3709 15.6037 34.4825 16.0828 35.4984C16.2362 35.8242 16.3703 36.0925 16.5236 36.3417C17.9803 38.8142 20.6445 40.3284 23.4811 40.3284C26.3178 40.3284 28.982 38.8142 30.4195 36.3801C30.592 36.0926 30.7454 35.8242 30.8604 35.5559C31.3779 34.5017 31.627 33.39 31.627 32.2017C31.6461 27.6975 27.9853 24.0367 23.5003 24.0367Z"
+                      fill="#292D32" />
+                    <path
+                      d="M22.4074 35.5174C22.0432 35.5174 21.6791 35.3833 21.3916 35.0958L19.494 33.1983C18.9382 32.6424 18.9382 31.7224 19.494 31.1666C20.0499 30.6108 20.9699 30.6108 21.5257 31.1666L22.4458 32.0866L25.5124 29.2499C26.1066 28.7133 27.0074 28.7516 27.544 29.3266C28.0807 29.9016 28.0424 30.8216 27.4674 31.3583L23.3849 35.1341C23.0974 35.3833 22.7524 35.5174 22.4074 35.5174Z"
+                      fill="#292D32" />
+                  </svg>
+                  <p class="text-cst-green text-lg lg:text-2xl font-medium mt-6 xl:mt-[48px] mb-3">
+                    Choose a file or drag & drop it here
+                  </p>
+                  <p class="text-cst-gray-light text-base lg:text-lg font-medium mb-6 xl:mb-[48px]">
+                    JPEG, PNG, PDF, and MP4 formats, up to 50MB
+                  </p>
+                  <label
+                    class="bg-cst-blue/10 text-cst-blue border-2 border-cst-blue text-sm font-bold py-3 px-10 2x:py-5 2x:px-[112px] rounded-[10px] cursor-pointer hover:bg-blue-100 transition-colors duration-300">
+                    UPLOAD
+                    <input id="file-input" type="file" class="hidden" accept=".jpg,.jpeg,.png,.pdf,.mp4" multiple />
+                  </label>
+                  <div id="uploaded-files" class="mt-4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Tab 8 -->
+        <div id="tab8" class="tab-content">
+          <!-- rest content -->
+          <div class="w-full 2xl:mt-[16px]">
+            <div
+              class="flex flex-col justify-center items-center text-center bg-white border-[2px] border-cst-peeler rounded-[10px] px-[30px] py-[50px]">
+              <div class="max-w-[58px]">
+                <img src="./img/ticket.png" alt="ticket" />
+              </div>
+              <div class="flex flex-col space-y-3 lg:space-y-4 mt-5 mb-8 lg:mt-[20px] lg:mb-[36px]">
+                <h3 class="text-lg xl:text-2xl font-medium text-cst-green">
+                  Apertura Ticket Assistenza IT Codia
+                </h3>
+                <h4 class="text-base xl:text-lg font-medium text-cst-gray-light">
+                  Hai riscontrato malfunzionamenti della piattaforma?
+                </h4>
+              </div>
+              <div class="mx-auto">
+                <button
+                  class="bg-cst-blue/10 text-cst-blue border-2 border-cst-blue text-sm font-bold py-3 px-10 2x:py-5 2x:px-[112px] rounded-[10px] cursor-pointer hover:bg-blue-100 transition-colors duration-300 inline-block">
+                  Apri un ticket
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="w-full mt-[32px] lg:mt-[60px]">
+            <div
+              class="flex flex-col justify-center items-center text-center bg-white border-[2px] border-cst-peeler rounded-[10px] px-[30px] py-[50px]">
+              <div class="max-w-[58px]">
+                <img src="./img/chats.png" alt="ticket" />
+              </div>
+              <div class="flex flex-col space-y-3 lg:space-y-4 mt-5 mb-8 lg:mt-[20px] lg:mb-[36px]">
+                <h3 class="text-lg lg:text-2xl font-medium text-cst-green">
+                  Contatti Arwin per consulenza IR
+                </h3>
+                <h4 class="text-base xl:text-lg font-medium text-cst-gray-light">
+                  Hai domande sui contenuti e il funzionamento della
+                  piattaforma?
+                </h4>
+              </div>
+              <div class="mx-auto">
+                <button
+                  class="bg-cst-blue/10 text-cst-blue border-2 border-cst-blue text-sm font-bold py-3 px-10 2x:py-5 2x:px-[112px] rounded-[10px] cursor-pointer hover:bg-blue-100 transition-colors duration-300 inline-block">
+                  Contattaci
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- js -->
+  <script>
+    const planningTitles = {
+      tab1: "Ciao, Antonio!",
+      tab2: "Planning",
+      tab3: "Comunicazione",
+      tab4: "Shareholders",
+      tab5: "Market",
+      tab6: "Sentiment Analysis",
+      tab7: "Control Room",
+      tab8: "Assistenza e contatti",
+    };
+
+    let calendarTwoInstance;
+
+    function initCalendarTwo() {
+      const calendarTwoEl = document.querySelector(".calendarTwo");
+      const highlightedDatesTwo = ["2024-04-05", "2024-04-10", "2024-04-15"];
+
+      calendarTwoInstance = new FullCalendar.Calendar(calendarTwoEl, {
+        initialView: "dayGridMonth",
+        initialDate: "2024-04-01",
+        headerToolbar: {
+          left: "",
+          center: "title",
+          right: "prev,next",
+        },
+        fixedWeekCount: false,
+        selectable: false,
+        editable: false,
+        showNonCurrentDates: false,
+        height: "auto",
+        events: highlightedDatesTwo.map((date) => ({
+          start: date,
+          display: "background",
+          classNames: ["highlighted"],
+        })),
+        dayCellDidMount: function (info) {
+          const dateStr = info.date.toISOString().split("T")[0];
+          if (highlightedDatesTwo.includes(dateStr)) {
+            const numberEl = info.el.querySelector(".fc-daygrid-day-number");
+            if (numberEl) {
+              numberEl.style.color = "#ffffff";
+              numberEl.style.fontWeight = "700";
+            }
+          }
+        },
+      });
+
+      calendarTwoInstance.render();
+    }
+
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        // Remove active classes
+        document.querySelectorAll(".tab").forEach((t) => {
+          t.classList.remove("tab-active");
+          t.classList.add("tab-inactive");
+        });
+        document.querySelectorAll(".tab-content").forEach((c) => {
+          c.classList.remove("tab-content-active");
+          c.classList.add("hidden");
+        });
+
+        // Add active classes
+        tab.classList.remove("tab-inactive");
+        tab.classList.add("tab-active");
+        const tabContent = document.getElementById(tab.dataset.tab);
+        tabContent.classList.remove("hidden");
+        tabContent.classList.add("tab-content-active");
+
+        // Change the <h2> content
+        const title = planningTitles[tab.dataset.tab];
+        document.getElementById("planning-title").textContent = title;
+
+        // Check and render calendarTwo when switching to tab2
+        if (tab.dataset.tab === "tab2") {
+          setTimeout(() => {
+            if (!calendarTwoInstance) {
+              initCalendarTwo(); // first time init
+            } else {
+              calendarTwoInstance.render(); // if already initialized, just re-render
+            }
+          }, 10); // small delay to ensure the tab is visible
+        }
+      });
+    });
+  </script>
+
+  <script>
+    // Ensure script runs after DOM is loaded
+    document.addEventListener("DOMContentLoaded", () => {
+      console.log("DOM loaded, initializing notification dropdown");
+
+      // Get all notification buttons and wrappers
+      const notificationButtons =
+        document.querySelectorAll(".notification-btn");
+      const notificationWrappers = document.querySelectorAll(
+        ".notification-wrapper"
+      );
+
+      if (notificationButtons.length === 0) {
+        console.error('No elements with class "notification-btn" found');
+        return;
+      }
+
+      // Add click event listener to each button
+      notificationButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          console.log("Notification button clicked");
+
+          // Find the closest wrapper and its dropdown
+          const wrapper = button.closest(".notification-wrapper");
+          const dropdown = wrapper.querySelector(".notification-dropdown");
+
+          if (!dropdown) {
+            console.error("No dropdown found in wrapper");
+            return;
+          }
+
+          // Toggle the dropdown's hidden class
+          const isOpen = dropdown.classList.toggle("hidden");
+          button.setAttribute("aria-expanded", !isOpen);
+          console.log("Dropdown toggled, isOpen:", !isOpen);
+        });
+      });
+
+      // Close all dropdowns when clicking outside
+      document.addEventListener("click", (event) => {
+        notificationWrappers.forEach((wrapper) => {
+          const button = wrapper.querySelector(".notification-btn");
+          const dropdown = wrapper.querySelector(".notification-dropdown");
+
+          if (!wrapper.contains(event.target)) {
+            dropdown.classList.add("hidden");
+            button.setAttribute("aria-expanded", "false");
+            console.log("Dropdown closed due to outside click");
+          }
+        });
+      });
+    });
+  </script>
+  <script>
+    // calendarOne
+    document.addEventListener("DOMContentLoaded", function () {
+      const highlightedDatesOne = [
+        "2024-03-02",
+        "2024-03-13",
+        "2024-03-18",
+        "2024-03-22",
+      ];
+
+      document.querySelectorAll(".calendar").forEach((el) => {
+        const calendarOne = new FullCalendar.Calendar(el, {
+          initialView: "dayGridMonth",
+          initialDate: "2024-03-01",
+          headerToolbar: {
+            left: "",
+            center: "title",
+            right: "prev,next",
+          },
+          fixedWeekCount: false,
+          selectable: false,
+          editable: false,
+          showNonCurrentDates: false,
+          height: "auto",
+          events: highlightedDatesOne.map((date) => ({
+            start: date,
+            display: "background",
+            classNames: ["highlighted"],
+          })),
+          dayCellDidMount: function (info) {
+            const dateStr = info.date.toISOString().split("T")[0];
+            if (highlightedDatesOne.includes(dateStr)) {
+              const numberEl = info.el.querySelector(
+                ".fc-daygrid-day-number"
+              );
+              if (numberEl) {
+                numberEl.style.color = "#ffffff";
+                numberEl.style.fontWeight = "700";
+              }
+            }
+          },
+        });
+
+        calendarOne.render();
+      });
+    });
+
+    // calendarTwo
+    document.addEventListener("DOMContentLoaded", function () {
+      const highlightedDatesTwo = ["2024-04-05", "2024-04-10", "2024-04-15"];
+
+      document.querySelectorAll(".calendarTwo").forEach((el) => {
+        const calendarTwo = new FullCalendar.Calendar(el, {
+          initialView: "dayGridMonth",
+          initialDate: "2024-04-01",
+          headerToolbar: {
+            left: "",
+            center: "title",
+            right: "prev,next",
+          },
+          fixedWeekCount: false,
+          selectable: false,
+          editable: false,
+          showNonCurrentDates: false,
+          height: "auto",
+          events: highlightedDatesTwo.map((date) => ({
+            start: date,
+            display: "background",
+            classNames: ["highlighted"],
+          })),
+          dayCellDidMount: function (info) {
+            const dateStr = info.date.toISOString().split("T")[0];
+            if (highlightedDatesTwo.includes(dateStr)) {
+              const numberEl = info.el.querySelector(
+                ".fc-daygrid-day-number"
+              );
+              if (numberEl) {
+                numberEl.style.color = "#ffffff";
+                numberEl.style.fontWeight = "700";
+              }
+            }
+          },
+        });
+
+        calendarTwo.render();
+      });
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script src="./js/index.js" type="module"></script>
+  <script src="./js/home.js" type="module"></script>
+</body>
+
+</html>
